@@ -172,6 +172,7 @@
 						</div>
 						<div class="menu-title">Charts</div>
 					</a>
+					
 					<ul>
 						<li> <a href="charts-apex-chart.html"><i class="bx bx-right-arrow-alt"></i>Apex</a>
 						</li>
