@@ -12,6 +12,7 @@
 	<link href="{{asset('adminBackend')}}/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
 	<link href="{{asset('adminBackend')}}/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet" />
 	<link href="{{asset('adminBackend')}}/assets/plugins/metismenu/css/metisMenu.min.css" rel="stylesheet" />
+	<link href="{{asset('adminBackend')}}/assets/plugins/input-tags/css/tagsinput.css" rel="stylesheet">
 	<!-- loader-->
 	<link href="{{asset('adminBackend')}}/assets/css/pace.min.css" rel="stylesheet" />
 	<script src="{{asset('adminBackend')}}/assets/js/pace.min.js"></script>

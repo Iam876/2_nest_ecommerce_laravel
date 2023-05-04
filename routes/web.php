@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubcategoryController;
+use App\Http\Controllers\Backend\ProductController;
+use App\Http\Middleware\RedirectIfAuthenticated;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,10 +37,10 @@ Route::middleware(['auth','role:admin'])->group(function(){
 });
 
 
-Route::get('/admin/login',[adminController::class,'AdminLogin'])->name('admin.adminLogin');
-Route::get('/vendor/login',[vendorController::class,'VendorLogin'])->name('vendor.login');
-Route::get('/become/vendor',[vendorController::class,'BecomeVendor'])->name('become.vendor');
-Route::post('/register/vendor',[vendorController::class,'RegisterVendor'])->name('register.vendor');
+Route::get('/admin/login',[adminController::class,'AdminLogin'])->name('admin.adminLogin')->middleware(RedirectIfAuthenticated::class);
+Route::get('/vendor/login',[vendorController::class,'VendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
+Route::get('/become/vendor',[vendorController::class,'BecomeVendor'])->name('become.vendor')->middleware(RedirectIfAuthenticated::class);
+Route::post('/register/vendor',[vendorController::class,'RegisterVendor'])->name('register.vendor')->middleware(RedirectIfAuthenticated::class);
 
 // Vendor Dashboard
 Route::middleware(['auth','role:vendor'])->group(function(){
@@ -123,6 +125,22 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/add_inactive/vendor/{id}','AddInactiveVendor')->name('add.inactive');
         Route::get('/add_active/vendor/{id}','AddActiveVendor')->name('add.active');
     });
+});
+
+Route::controller(ProductController::class)->group(function(){
+    Route::get('all/product','AllProduct')->name('all_product');
+    Route::get('/view/product/','ShowProduct');
+    Route::get('add/product','AddProduct')->name('add_product');
+    Route::get('/subcategory/values/{cat_id}','ShowSubCategory');
+    Route::post('/store/products','StoreProduct')->name('store_products');
+    Route::get('/delete/product/{id}','DeleteProduct');
+    Route::get('/active/product/{id}','ActiveProduct');
+    Route::get('/inactive/product/{id}','InactiveProduct');
+    Route::get('/edit/product/{id}','EditProduct');
+    Route::post('/update/products/{id}','UpdateProduct')->name('update_products');
+    Route::post('/update/mainThumbnail/{id}','UpdateMainThumbnail')->name('update_mainThumbnail');
+    Route::post('/update/multiImages/{id}','UpdateMultiImages')->name('update_multiImages');
+    Route::get('/delete/multiImages/{id}','DeleteMultiImages')->name('delete_multi_images');
 });
 
 
