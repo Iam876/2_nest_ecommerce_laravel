@@ -9,6 +9,9 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubcategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\VendorProductController;
+use App\Http\Controllers\Backend\SliderController;
+use App\Http\Controllers\Backend\BannerController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 /*
@@ -28,43 +31,25 @@ Route::get('/',function(){
 
 // Admin Dashboard
 Route::middleware(['auth','role:admin'])->group(function(){
-    Route::get('/admin/dashboard',[adminController::class,'adminDashboard'])->name('admin.dashboard');
-    Route::get('/admin/logout',[adminController::class,'adminDestroy'])->name('admin.logout');
-    Route::get('/admin/profile',[adminController::class,'adminProfile'])->name('admin.adminprofile');
-    Route::post('/admin/profile/store',[adminController::class,'adminProfileStore'])->name('admin.profile.store');
-    Route::get('/admin/password/change',[adminController::class,'adminPasswordChange'])->name('admin.admin_password_change');
-    Route::post('/admin/password/update',[adminController::class,'adminPasswordUpdate'])->name('admin.admin_password_update');
-});
+    Route::controller(adminController::class)->group(function(){
+        Route::get('/admin/dashboard','adminDashboard')->name('admin.dashboard');
+        Route::get('/admin/logout','adminDestroy')->name('admin.logout');
+        Route::get('/admin/profile','adminProfile')->name('admin.adminprofile');
+        Route::post('/admin/profile/store','adminProfileStore')->name('admin.profile.store');
+        Route::get('/admin/password/change','adminPasswordChange')->name('admin.admin_password_change');
+        Route::post('/admin/password/update','adminPasswordUpdate')->name('admin.admin_password_update');
+    });
 
-
-Route::get('/admin/login',[adminController::class,'AdminLogin'])->name('admin.adminLogin')->middleware(RedirectIfAuthenticated::class);
-Route::get('/vendor/login',[vendorController::class,'VendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
-Route::get('/become/vendor',[vendorController::class,'BecomeVendor'])->name('become.vendor')->middleware(RedirectIfAuthenticated::class);
-Route::post('/register/vendor',[vendorController::class,'RegisterVendor'])->name('register.vendor')->middleware(RedirectIfAuthenticated::class);
-
-// Vendor Dashboard
-Route::middleware(['auth','role:vendor'])->group(function(){
-    Route::get('/vendor/dashboard',[vendorController::class,'vendorDashboard'])->name('vendor.dashboard');
-    Route::get('/vendor/logout',[vendorController::class,'vendorDestroy'])->name('vendor.logout');
-    Route::get('/vendor/profile',[vendorController::class,'vendorProfile'])->name('vendor.profile');
-    Route::post('/vendor/profile/store',[vendorController::class,'vendorProfileStore'])->name('vendor.profile.store');
-    Route::get('/vendor/password/change',[vendorController::class,'vendorPasswordChange'])->name('vendor.vendor_password_change');
-    Route::post('/vendor/password/update',[vendorController::class,'vendorPasswordUpdate'])->name('vendor.vendor_password_update');
-});
-
-// User Dashboard
-Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/dashboard',[UserController::class,'UserDashboard'])->name('user.dashboard');
-    Route::get('/index/logout',[UserController::class,'UserDestroy'])->name('user.logout');
-    Route::post('/dashboard',[UserController::class,'UserPasswordUpdate'])->name('user.user_password_update');
-});
-Route::get('/phpinfo', function() {
-    phpinfo();
-});
-
-// Brand Portion
-Route::middleware(['auth','role:admin'])->group(function(){
-     Route::controller(BrandController::class)->group(function(){
+    // Vendor Portion
+    Route::controller(vendorController::class)->group(function(){
+        Route::get('/active/vendor','ActiveVendor')->name('active.vendor');
+        Route::get('/inactive/vendor','InactiveVendor')->name('inactive.vendor');
+        Route::get('/add_inactive/vendor/{id}','AddInactiveVendor')->name('add.inactive');
+        Route::get('/add_active/vendor/{id}','AddActiveVendor')->name('add.active');
+    });
+    
+    // Brand Portion
+    Route::controller(BrandController::class)->group(function(){
         Route::get('all/brand/','AllBrand')->name('all.brand');
 
         // Add Brand Store
@@ -83,11 +68,9 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/edit_brand/{id}','EditBrand');
         Route::post('/update_brand/{id}','UpdateBrand');
      });
-});
 
-// Category Portion
-Route::middleware(['auth','role:admin'])->group(function(){
-    Route::controller(CategoryController::class)->group(function(){
+     // Category Portion
+     Route::controller(CategoryController::class)->group(function(){
         Route::get('all/category/','AllCategory')->name('all.category');
         // Route to add data
         Route::post('/add_category/','AddCategory');
@@ -103,10 +86,8 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/edit_category/{id}','EditCategory');
         Route::post('/update_category/{id}','UpdateCategory');
     });
-});
 
-// Subcategory Portion
-Route::middleware(['auth','role:admin'])->group(function(){
+    // Subcategory Portion
     Route::controller(SubcategoryController::class)->group(function(){
         Route::get('all/subcategory/','AllSubCategory')->name('all.subcategory');
         Route::get('/get/category/','addCategory');
@@ -116,31 +97,97 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::post('/inactive_subcategory/{id}','InactiveSubCategory');
         Route::get('/delete_subcategory/{id}','DeleteSubCategory');
     });
-});
 
-Route::middleware(['auth','role:admin'])->group(function(){
-    Route::controller(vendorController::class)->group(function(){
-        Route::get('/active/vendor','ActiveVendor')->name('active.vendor');
-        Route::get('/inactive/vendor','InactiveVendor')->name('inactive.vendor');
-        Route::get('/add_inactive/vendor/{id}','AddInactiveVendor')->name('add.inactive');
-        Route::get('/add_active/vendor/{id}','AddActiveVendor')->name('add.active');
+    // Product CRUD PART
+    Route::controller(ProductController::class)->group(function(){
+        Route::get('all/product','AllProduct')->name('all_product');
+        Route::get('/view/product/','ShowProduct');
+        Route::get('add/product','AddProduct')->name('add_product');
+        Route::get('/subcategory/values/{cat_id}','ShowSubCategory');
+        Route::post('/store/products','StoreProduct')->name('store_products');
+        Route::get('/delete/product/{id}','DeleteProduct');
+        Route::get('/active/product/{id}','ActiveProduct');
+        Route::get('/inactive/product/{id}','InactiveProduct');
+    
+        Route::get('/edit/product/{id}','EditProduct');
+        Route::post('/update/products/{id}','UpdateProduct')->name('update_products');
+    
+        Route::post('/update/mainThumbnail/{id}','UpdateMainThumbnail')->name('update_mainThumbnail');
+        Route::post('/update/multiImages/{id}','UpdateMultiImages')->name('update_multiImages');
+        Route::get('/delete/multiImages/{id}','DeleteMultiImages')->name('delete_multi_images');
+    });
+
+    Route::controller(SliderController::class)->group(function(){
+        Route::get('all/slider/','AllSlider')->name('all.slider');
+        Route::post('/add_slider/','AddSlider');
+        Route::get('/show_slider/','ShowSlider');
+        Route::get('/delete_slider/{id}','DeleteSlider');
+        Route::get('/edit_slider/{id}','EditSlider');
+        Route::post('/update_slider/{id}','UpdateSlider');
+        Route::get('/active_slider/{id}','ActiveSlider');
+        Route::get('/inactive_slider/{id}','InactiveSlider');
+    });
+    Route::controller(BannerController::class)->group(function(){
+        Route::get('all/banner/','AllBanner')->name('all.banner');
+        Route::post('/add_banner/','AddBanner');
+        Route::get('/show_banner/','ShowBanner');
+        Route::get('/delete_banner/{id}','DeleteBanner');
+        Route::get('/edit_banner/{id}','EditBanner');
+        Route::post('/update_banner/{id}','UpdateBanner');
+        Route::get('/active_banner/{id}','ActiveBanner');
+        Route::get('/inactive_banner/{id}','InactiveBanner');
     });
 });
 
-Route::controller(ProductController::class)->group(function(){
-    Route::get('all/product','AllProduct')->name('all_product');
-    Route::get('/view/product/','ShowProduct');
-    Route::get('add/product','AddProduct')->name('add_product');
-    Route::get('/subcategory/values/{cat_id}','ShowSubCategory');
-    Route::post('/store/products','StoreProduct')->name('store_products');
-    Route::get('/delete/product/{id}','DeleteProduct');
-    Route::get('/active/product/{id}','ActiveProduct');
-    Route::get('/inactive/product/{id}','InactiveProduct');
-    Route::get('/edit/product/{id}','EditProduct');
-    Route::post('/update/products/{id}','UpdateProduct')->name('update_products');
-    Route::post('/update/mainThumbnail/{id}','UpdateMainThumbnail')->name('update_mainThumbnail');
-    Route::post('/update/multiImages/{id}','UpdateMultiImages')->name('update_multiImages');
-    Route::get('/delete/multiImages/{id}','DeleteMultiImages')->name('delete_multi_images');
+
+Route::get('/admin/login',[adminController::class,'AdminLogin'])->name('admin.adminLogin')->middleware(RedirectIfAuthenticated::class);
+Route::get('/vendor/login',[vendorController::class,'VendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
+Route::get('/become/vendor',[vendorController::class,'BecomeVendor'])->name('become.vendor')->middleware(RedirectIfAuthenticated::class);
+Route::post('/register/vendor',[vendorController::class,'RegisterVendor'])->name('register.vendor')->middleware(RedirectIfAuthenticated::class);
+
+// Vendor Dashboard
+Route::middleware(['auth','role:vendor'])->group(function(){
+    Route::controller(vendorController::class)->group(function(){
+        Route::get('/vendor/dashboard','vendorDashboard')->name('vendor.dashboard');
+        Route::get('/vendor/logout','vendorDestroy')->name('vendor.logout');
+        Route::get('/vendor/profile','vendorProfile')->name('vendor.profile');
+        Route::post('/vendor/profile/store','vendorProfileStore')->name('vendor.profile.store');
+        Route::get('/vendor/password/change','vendorPasswordChange')->name('vendor.vendor_password_change');
+        Route::post('/vendor/password/update','vendorPasswordUpdate')->name('vendor.vendor_password_update');
+    });
+
+    // Vendor Product CRUD
+    Route::controller(VendorProductController::class)->group(function(){
+        Route::get('/all/product/vendor/','AllProductVendor')->name('all_product_vendor');
+        Route::get('/view/product/vendor/','ShowProductVendor');
+
+        Route::get('add/product/vendor/','AddProductVendor')->name('add_product_vendor');
+        Route::get('/subcategory/values/vendor/{cat_id}','ShowSubCategoryVendor');
+        Route::post('/store/products/vendor/','StoreProductVendor')->name('store_products_vendor');
+
+        Route::get('/delete/product/vendor/{id}','DeleteProductVendor');
+        Route::get('/active/product/vendor/{id}','ActiveProductVendor');
+        Route::get('/inactive/product/vendor/{id}','InactiveProductVendor');
+
+        Route::get('/edit/product/vendor/{id}','EditProductVendor');
+        Route::post('/update/products/vendor/{id}','UpdateProductVendor')->name('update_products_vendor');
+
+        Route::post('/update/mainThumbnail/vendor/{id}','UpdateMainThumbnailVendor')->name('update_mainThumbnail_vendor');
+        Route::post('/update/multiImages/vendor/{id}','UpdateMultiImagesVendor')->name('update_multiImages_vendor');
+        Route::get('/delete/multiImages/vendor/{id}','DeleteMultiImagesVendor')->name('delete_multi_images_vendor');
+
+    });
+
+});
+
+// User Dashboard
+Route::middleware(['auth', 'verified'])->group(function(){
+    Route::get('/dashboard',[UserController::class,'UserDashboard'])->name('user.dashboard');
+    Route::get('/index/logout',[UserController::class,'UserDestroy'])->name('user.logout');
+    Route::post('/dashboard',[UserController::class,'UserPasswordUpdate'])->name('user.user_password_update');
+});
+Route::get('/phpinfo', function() {
+    phpinfo();
 });
 
 

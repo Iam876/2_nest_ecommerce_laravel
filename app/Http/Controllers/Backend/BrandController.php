@@ -25,7 +25,7 @@ class BrandController extends Controller
         if($request->hasFile('Bimage')){
         $image = $request->file('Bimage');
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(300,300)->save('upload/brand/'.$name_gen);
+        Image::make($image)->resize(2376,807)->save('upload/brand/'.$name_gen);
         $save_url = 'upload/brand/'.$name_gen;
         }
 
@@ -122,7 +122,7 @@ class BrandController extends Controller
             @unlink($old_image_path);
         }
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        Image::make($image)->resize(300,300)->save('upload/brand/'.$name_gen);
+        Image::make($image)->resize(2376,807)->save('upload/brand/'.$name_gen);
         $save_url = 'upload/brand/'.$name_gen;
         }
 

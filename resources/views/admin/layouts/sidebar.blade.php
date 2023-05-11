@@ -50,6 +50,28 @@
 						</li>
 					</ul>
 				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-slider"></i>
+						</div>
+						<div class="menu-title">Slider</div>
+					</a>
+					<ul>
+						<li> <a href="{{Route('all.slider')}}"><i class="bx bx-right-arrow-alt"></i>All Slider</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-banner"></i>
+						</div>
+						<div class="menu-title">Banner</div>
+					</a>
+					<ul>
+						<li> <a href="{{Route('all.banner')}}"><i class="bx bx-right-arrow-alt"></i>All Banner</a>
+						</li>
+					</ul>
+				</li>
 				<li class="menu-label">Vendor</li>
 				<li>
 					<a href="javascript:;" class="has-arrow">
