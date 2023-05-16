@@ -189,6 +189,7 @@
 					  </div>
 					</div>
 				  </div>
+				</div>
 
 				  <!-- To Delete Data -->
 				<div class="modal" tabindex="-1" id="OpenDelete">
