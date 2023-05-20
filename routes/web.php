@@ -12,6 +12,9 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\BannerController;
+use App\Http\Controllers\Frontend\ProductDetails;
+use App\Http\Controllers\Frontend\VendorDetailsController;
+use App\Http\Controllers\Frontend\VendorListGridController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 /*
@@ -25,9 +28,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 |
 */
 
-Route::get('/',function(){
-    return view('frontend.index');
-});
+Route::get('/',[ProductDetails::class,'index']);
 
 // Admin Dashboard
 Route::middleware(['auth','role:admin'])->group(function(){
@@ -189,6 +190,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
 Route::get('/phpinfo', function() {
     phpinfo();
 });
+
+
+Route::get('product/details/{id}/{slug}',[ProductDetails::class,'ProductDetails']);
+Route::get('category/product/{id}/{slug}',[ProductDetails::class,'CategoryProduct']);
+Route::get('subcategory/product/{id}/{slug}',[ProductDetails::class,'SubCategoryProduct']);
+Route::get('vendor/details/{id}',[VendorDetailsController::class,'VendorDetails']);
+Route::get('vendor/list/',[VendorListGridController::class,'VendorList'])->name('vendor_list');
+
 
 
 Route::middleware('auth')->group(function () {

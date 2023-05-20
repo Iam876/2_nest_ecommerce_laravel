@@ -57,7 +57,7 @@
 <div class="container">
     <div class="header-wrap">
         <div class="logo logo-width-1">
-            <a href="index.html"><img src="{{asset('frontend')}}/assets/imgs/theme/logo.svg" alt="logo" /></a>
+            <a href="{{url('/')}}"><img src="{{asset('frontend')}}/assets/imgs/theme/logo.svg" alt="logo" /></a>
         </div>
         <div class="header-right">
             <div class="search-style-2">
@@ -215,11 +215,11 @@
                         <ul>
 
                             @php
-                            $categories = App\Models\Category\Category::orderBy('id','ASC')->where('status','active')->limit(5)->get();
+                            $categories = App\Models\Category\Category::orderBy('category_name','DESC')->where('status','active')->withCount('products')->limit(5)->get();
                             @endphp
                             @foreach($categories->slice(0) as $category)
                             <li>
-                                <a href="shop-grid-right.html"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
+                                <a href="#"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
                             </li>
                             @endforeach
                         </ul>
@@ -236,14 +236,14 @@
                             <ul>
                                 @foreach($categories->slice(11,3) as $category)
                                     <li>
-                                        <a href="shop-grid-right.html"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
+                                        <a href="{{url('category/product/'.$category->id.'/'.$category->category_slug)}}"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
                                     </li>
                                 @endforeach
                             </ul>
                             <ul class="end">
                                 @foreach($categories->slice(14,3) as $category)
                                     <li>
-                                        <a href="shop-grid-right.html"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
+                                        <a href="{{url('category/product/'.$category->id.'/'.$category->category_slug)}}"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -257,18 +257,18 @@
                     <ul>
                         
                         <li>
-                            <a class="active" href="index.html">Home  </a>
+                            <a class="active" href="{{ url('/') }}">Home  </a>
                             
                 </li>
                 @foreach($categories as $category)
                 <li>
-                    <a href="#">{{$category->category_name}} <i class="fi-rs-angle-down"></i></a>
+                    <a href="{{url('category/product/'.$category->id.'/'.$category->category_slug)}}">{{$category->category_name}} <i class="fi-rs-angle-down"></i></a>
                     @php
                         $subcategories = App\Models\Subcategory\Subcategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
                     @endphp
                     <ul class="sub-menu">
                         @foreach($subcategories as $subcategory)
-                            <li><a href="#">{{$subcategory->subcategory_name}}</a></li>
+                            <li><a href="{{url('subcategory/product/'.$subcategory->id.'/'.$subcategory->subcategory_slug)}}">{{$subcategory->subcategory_name}}</a></li>
                         @endforeach
                     </ul>
                 </li>

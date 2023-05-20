@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Product\Product;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+
+    public function products()
+    {
+        return $this->hasMany(Product::class,'vendor_id','id');
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -18,15 +25,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-
-    // This is the default way
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
-
-    // It makes all the table fields are fillable.
+    
+    
     protected $guarded = [];
 
     /**

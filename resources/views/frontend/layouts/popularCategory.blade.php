@@ -10,7 +10,9 @@
                 <div class="carausel-10-columns-cover position-relative">
                     <div class="carausel-10-columns" id="carausel-10-columns">
                         @php
+               
                         $categories = App\Models\Category\Category::orderBy('category_name','ASC')->where('status','active')->get();
+
                         @endphp
                         @foreach ($categories as $category)
                         <div class="card-2 bg-9 wow animate__animated animate__fadeInUp" data-wow-delay=".1s">
