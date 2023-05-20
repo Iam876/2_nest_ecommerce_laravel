@@ -195,6 +195,7 @@ Route::get('/phpinfo', function() {
 Route::get('product/details/{id}/{slug}',[ProductDetails::class,'ProductDetails']);
 Route::get('category/product/{id}/{slug}',[ProductDetails::class,'CategoryProduct']);
 Route::get('subcategory/product/{id}/{slug}',[ProductDetails::class,'SubCategoryProduct']);
+Route::get('product/modal/view/{id}',[ProductDetails::class,'ProductModalView']);
 Route::get('vendor/details/{id}',[VendorDetailsController::class,'VendorDetails']);
 Route::get('vendor/list/',[VendorListGridController::class,'VendorList'])->name('vendor_list');
 
