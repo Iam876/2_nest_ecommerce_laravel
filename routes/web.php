@@ -15,18 +15,11 @@ use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Frontend\ProductDetails;
 use App\Http\Controllers\Frontend\VendorDetailsController;
 use App\Http\Controllers\Frontend\VendorListGridController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\User\WishlistController;
+use App\Http\Controllers\Frontend\User\CompareProductController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/',[ProductDetails::class,'index']);
 
@@ -191,15 +184,35 @@ Route::get('/phpinfo', function() {
     phpinfo();
 });
 
+Route::middleware(['auth','role:user'])->group(function(){
+    Route::post('/product/addToWishList/{product_id}',[WishlistController::class,'InsertWishList']);
+    Route::get('shop/wishlist/',[WishlistController::class,'viewWishList'])->name('shop_wishlist');
+    Route::get('/all/wishlist/',[WishlistController::class,'wishListAjax']);
+    Route::get('/wish/product/remove/{id}',[WishlistController::class,'wishProductRemove']);
+
+    Route::get('all/product/compare/',[CompareProductController::class,'productComparePage'])->name('product_compare');
+    Route::post('/product/compare/{product_id}',[CompareProductController::class,'InsertProductCompare']);
+    Route::get('/show/compare/product/',[CompareProductController::class,'ShowCompareProduct']);
+    Route::get('/compare/product/remove/{id}',[CompareProductController::class,'CompareProductRemove']);
+});
+
+
+
 
 Route::get('product/details/{id}/{slug}',[ProductDetails::class,'ProductDetails']);
 Route::get('category/product/{id}/{slug}',[ProductDetails::class,'CategoryProduct']);
 Route::get('subcategory/product/{id}/{slug}',[ProductDetails::class,'SubCategoryProduct']);
-Route::get('product/modal/view/{id}',[ProductDetails::class,'ProductModalView']);
-Route::get('vendor/details/{id}',[VendorDetailsController::class,'VendorDetails']);
+Route::get('/product/modal/view/{id}',[ProductDetails::class,'ProductModalView']);
+
+Route::post('/cart/data/store/{id}',[CartController::class,'AddToCart']);
+Route::post('/cart/data/store/wish/{id}',[CartController::class,'AddToCartWish']);
+Route::post('/cart/data/store/compare/{id}',[CartController::class,'AddToCartCompare']);
+// Route::post('detail/cart/data/store/{id}',[CartController::class,'AddToCart']);
+Route::get('/product/mini/cart/',[CartController::class,'AddToMiniCart']);
+Route::get('/cart/product/remove/{id}',[CartController::class,'CartProductRemove']);
+
+Route::get('/vendor/details/{id}',[VendorDetailsController::class,'VendorDetails'])->name('vendorDetailsInfo');
 Route::get('vendor/list/',[VendorListGridController::class,'VendorList'])->name('vendor_list');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

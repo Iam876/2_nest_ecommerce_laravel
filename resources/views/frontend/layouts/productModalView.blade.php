@@ -8,14 +8,14 @@
                             <div class="detail-gallery">
                                 <span class="zoom-icon"><i class="fi-rs-search"></i></span>
                                 <!-- MAIN SLIDES -->
-                                <div class="ModelMainSlider">
-                                    {{-- <figure class="border-radius-10">
-                                        <img src="{{asset('frontend')}}/assets/imgs/shop/product-16-2.jpg" alt="product image" />
-                                    </figure> --}}
+                                <div class="product-image-slider">
+                                    <figure class="border-radius-10">
+                                        <img src="" id="pimage" alt="product image" />
+                                    </figure>
                                 </div>
                                 <!-- THUMBNAILS  -->
                                 <div class="Ibrahim">
-                                    {{-- <div><img src="{{asset('frontend')}}/assets/imgs/shop/thumbnail-3.jpg" alt="product image" /></div> --}}
+                                    
                                 </div>
                             </div>
                             <!-- End Gallery -->
@@ -31,6 +31,17 @@
                                         </div>
                                         <span class="font-small ml-5 text-muted"> (32 reviews)</span>
                                     </div>
+                                </div>
+                                <div class="attr-detail attr-size mb-30">
+                                    <strong class="mr-10">Size : </strong>
+                                    
+                                        <span class="text-warning" id="ModalNoSize"></span>
+                                    
+                                    <ul class="list-filter size-filter font-small" id="ModalSize">
+                                       
+                                            
+                                       
+                                    </ul> 
                                 </div>
                                 <div class="attr-detail attr-size mb-30">
                                     <strong class="mr-10">Color : </strong>
@@ -55,11 +66,11 @@
                                 <div class="detail-extralink mb-30">
                                     <div class="detail-qty border radius">
                                         <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
-                                        <input type="text" name="quantity" class="qty-val" value="1" min="1">
+                                        <input type="text" name="quantity" class="qty-val" value="1" min="1" id="qty">
                                         <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
                                     </div>
                                     <div class="product-extra-link2">
-                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                        <button type="submit" class="button button-add-to-cart" id="addToCart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
                                     </div>
                                 </div>
                                 

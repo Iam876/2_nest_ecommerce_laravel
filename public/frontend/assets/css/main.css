@@ -5339,7 +5339,7 @@ table .product-thumbnail img {
   border-radius: 16px;
 }
 
-.detail-gallery .product-image-slider.slider-nav-thumbnails,.detail-gallery .Ibrahim.slider-nav-thumbnails,.detail-gallery .ModelMainSlider {
+.detail-gallery .product-image-slider.slider-nav-thumbnails, .Ibrahim.slider-nav-thumbnails .detail-gallery,.detail-gallery .ModelMainSlider.slider-nav-thumbnails {
   background: none;
   border-radius: 0;
 }

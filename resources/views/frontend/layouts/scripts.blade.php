@@ -22,8 +22,12 @@
     <script src="{{asset('frontend')}}/assets/js/main.js?v=5.3"></script>
     <script src="{{asset('frontend')}}/assets/js/shop.js?v=5.3"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- product Modal View With Ajax modalView.js --}}
-    <script src="{{asset('frontend')}}/assets/js/modalView.js"></script>
+    <script src="{{asset('frontend')}}/assets/js/modalViewAndCart.js"></script>
+    <script src="{{asset('frontend')}}/assets/js/wishList.js"></script>
+    <script src="{{asset('frontend')}}/assets/js/compareAjax.js"></script>
     
 
 	<script>
