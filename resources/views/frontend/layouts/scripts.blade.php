@@ -28,6 +28,7 @@
     <script src="{{asset('frontend')}}/assets/js/modalViewAndCart.js"></script>
     <script src="{{asset('frontend')}}/assets/js/wishList.js"></script>
     <script src="{{asset('frontend')}}/assets/js/compareAjax.js"></script>
+    <script src="{{asset('frontend')}}/assets/js/MainCartAjax.js"></script>
     
 
 	<script>
