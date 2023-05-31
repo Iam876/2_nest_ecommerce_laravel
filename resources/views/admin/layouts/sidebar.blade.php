@@ -83,6 +83,21 @@
 						</li>
 					</ul>
 				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-coupon"></i>
+						</div>
+						<div class="menu-title">Shipping</div>
+					</a>
+					<ul>
+						<li> <a href="{{route('all.division')}}"><i class="bx bx-right-arrow-alt"></i>All Division</a>
+						</li>
+						<li> <a href="{{route('all.district')}}"><i class="bx bx-right-arrow-alt"></i>All District</a>
+						</li>
+						<li> <a href="{{route('all.state')}}"><i class="bx bx-right-arrow-alt"></i>All State</a>
+						</li>
+					</ul>
+				</li>
 				<li class="menu-label">Vendor</li>
 				<li>
 					<a href="javascript:;" class="has-arrow">

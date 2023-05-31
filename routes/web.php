@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\VendorProductController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\CouponController;
+use App\Http\Controllers\Backend\shippingController;
 
 
 use App\Http\Controllers\Frontend\ProductDetails;
@@ -146,8 +147,34 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/edit_coupon/{id}','EditCoupon');
         Route::post('/update_coupon/{id}','UpdateCoupon');
     });
+    Route::controller(shippingController::class)->group(function(){
+        Route::get('all/division/','AllDivision')->name('all.division');
+        Route::post('/division_add/','InsertDivision');
+        Route::get('/show_division/','ShowDivision');
+        Route::post('/inactive_division/{id}','InActive');
+        Route::post('/active_division/{id}','Active');
+        Route::get('/delete_division/{id}','DeleteDivision');
+        Route::get('/edit_division/{id}','EditDivision');
+        Route::post('/update_division/{id}','UpdateDivision');
 
 
+        Route::get('all/district/','AllDistrict')->name('all.district');
+        Route::get('/get_division_data/','ShowAllDivision');
+        Route::post('/district_add/','DistrictAdd');
+        Route::get('/show_district/','ShowDistrict');
+        Route::post('/inactive_district/{id}','InactiveDistrict');
+        Route::post('/active_district/{id}','ActiveDistrict');
+        Route::get('/delete_district/{id}','DeleteDistrict');
+
+        
+        Route::get('all/state/','AllState')->name('all.state');    
+        Route::get('/get_district_data/','ShowAllDistrict');        
+        Route::post('/state_add/','StateAdd');   
+        Route::get('/show_state/','ShowState');   
+        Route::post('/inactive_state/{id}','Inactivetate');   
+        Route::post('/active_state/{id}','ActiveState');   
+        Route::get('/delete_state/{id}','DeleteState');   
+    });
 });
 
 
