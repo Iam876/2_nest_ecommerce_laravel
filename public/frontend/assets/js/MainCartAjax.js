@@ -47,6 +47,7 @@ $(document).ready(function() {
             type:"GET",
             dataType:"JSON",
             success:function(response){
+                couponCalculation();
                 $("#miniCart").text(response.cartQty);
                 var data = '';
                 const domain = window.location.origin;
@@ -108,6 +109,7 @@ $(document).ready(function() {
             dataType:"JSON",
             success:function(response){
                 showCart();
+                couponCalculation();
             }
         })
     })
@@ -142,5 +144,228 @@ $(document).ready(function() {
         })
     });
     
+    $(document).on("click","#apply_coupon",function(){
+        var coupon_name = $("#coupon").val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url:"/apply_coupon",
+            type:"POST",
+            data:{coupon_name:coupon_name},
+            dataType:"JSON",
+            success:function(response){
+                couponCalculation();
+                 if(response.validity == true){
+                    $("#couponField").hide();
+                 
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success', 
+                    showConfirmButton: false,
+                    timer: 2000 
+              })
+              if ($.isEmptyObject(response.error)) {
+                showCart();
+                      Toast.fire({
+                      type: 'success',
+                      title: response.success, 
+                      })
+              }else{
+                 
+             Toast.fire({
+                      type: 'error',
+                      title: response.error, 
+                      })
+                  }  
+                }else{
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'error', 
+                        showConfirmButton: false,
+                        timer: 2000 
+                  })
+                  if ($.isEmptyObject(response.error)) {
+                    showCart();
+                          Toast.fire({
+                          type: 'success',
+                          title: response.success, 
+                          })
+                  }else{
+                     
+                 Toast.fire({
+                          type: 'error',
+                          title: response.error, 
+                          })
+                      }  
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        })
+    })
 
+    function couponCalculation(){
+        $.ajax({
+            url:"/coupon_calculation",
+            type:"GET",
+            dataType:"JSON",
+            success:function(data){
+               if(data.total){
+                $("#CouponCalField").html(`<tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Subtotal</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h4 class="text-brand text-end" id="MainCartPrice">$${data.total}</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col" colspan="2">
+                            <div class="divider-2 mt-10 mb-10"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Shipping</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h5 class="text-heading text-end">Free</h4</td> </tr> <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Estimate for</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h5 class="text-heading text-end">United Kingdom</h4</td> </tr> <tr>
+                        <td scope="col" colspan="2">
+                            <div class="divider-2 mt-10 mb-10"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Total</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h4 class="text-brand text-end">$${data.total}</h4>
+                        </td>
+                    </tr>`);
+               }else{
+                $("#CouponCalField").html(`
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Subtotal</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h4 class="text-brand text-end" id="MainCartPrice">$${data.subtotal}</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col" colspan="2">
+                            <div class="divider-2 mt-10 mb-10"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Coupon Name</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h5 class="text-heading text-end">${data.coupon_name}</h5>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Remove Coupon</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <div class="text-end" id="couponRemove">
+                                <i class="fi-rs-trash btn btn-warning"> Remove</i>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td scope="col" colspan="2">
+                            <div class="divider-2 mt-10 mb-10"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Coupon Discount</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h4 class="text-brand text-end">${data.coupon_discount}%</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col" colspan="2">
+                            <div class="divider-2 mt-10 mb-10"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Discount amount</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h4 class="text-brand text-end">(-) $${data.discount_amount}</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col" colspan="2">
+                            <div class="divider-2 mt-10 mb-10"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="cart_total_label">
+                            <h6 class="text-muted">Total Amount</h6>
+                        </td>
+                        <td class="cart_total_amount">
+                            <h4 class="text-brand text-end">$${data.total_amount}</h4>
+                        </td>
+                    </tr>
+                    `);
+               }
+            }
+        })
+    }
+
+    $(document).on("click","#couponRemove",function(){
+        $.ajax({
+            url: "/coupon-remove",
+            type: "GET",
+            dataType: 'json',
+            success:function(data){
+               couponCalculation();
+               $('#couponField').show();
+                 // Start Message 
+        const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              
+              showConfirmButton: false,
+              timer: 3000 
+        })
+        if ($.isEmptyObject(data.error)) {
+                
+                Toast.fire({
+                type: 'success',
+                icon: 'success', 
+                title: data.success, 
+                })
+        }else{
+           
+       Toast.fire({
+                type: 'error',
+                icon: 'error', 
+                title: data.error, 
+                })
+            }
+           
+            }
+        })
+    })
+ 
 })

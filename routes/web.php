@@ -229,19 +229,7 @@ Route::get('/phpinfo', function() {
 });
 
 Route::middleware(['auth','role:user'])->group(function(){
-    Route::controller(WishlistController::class)->group(function(){
-        Route::post('/product/addToWishList/{product_id}','InsertWishList');
-        Route::get('shop/wishlist/','viewWishList')->name('shop_wishlist');
-        Route::get('/all/wishlist/','wishListAjax');
-        Route::get('/wish/product/remove/{id}','wishProductRemove');
-    });
-
-    Route::controller(CompareProductController::class)->group(function(){
-        Route::get('all/product/compare/','productComparePage')->name('product_compare');
-        Route::post('/product/compare/{product_id}','InsertProductCompare');
-        Route::get('/show/compare/product/','ShowCompareProduct');
-        Route::get('/compare/product/remove/{id}','CompareProductRemove');
-    });
+    
 
     Route::controller(ProductDetails::class)->group(function(){
         Route::get('product/details/{id}/{slug}','ProductDetails');
@@ -250,8 +238,20 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/product/modal/view/{id}','ProductModalView');
     });
 
+    Route::controller(WishlistController::class)->group(function(){
+        Route::post('/product/addToWishList/{product_id}','InsertWishList');
+        Route::get('shop/wishlist/','viewWishList')->name('shop_wishlist');
+        Route::get('/all/wishlist/','wishListAjax');
+        Route::get('/wish/product/remove/{id}','wishProductRemove');
+    });
     
-
+    Route::controller(CompareProductController::class)->group(function(){
+        Route::get('all/product/compare/','productComparePage')->name('product_compare');
+        Route::post('/product/compare/{product_id}','InsertProductCompare');
+        Route::get('/show/compare/product/','ShowCompareProduct');
+        Route::get('/compare/product/remove/{id}','CompareProductRemove');
+    });
+    
     Route::controller(CartController::class)->group(function(){
         Route::post('/cart/data/store/{id}','AddToCart');
         Route::post('/cart/data/store/wish/{id}','AddToCartWish');
@@ -266,8 +266,15 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/increment_quantity/{id}','QuantityIncrement');
         Route::get('/decrement_quantity/{id}','QuantityDecrement');
         Route::get('/main/cart/remove/{id}','CartProductRemove');
+    
+        Route::post('/apply_coupon','CouponApply');
+        Route::get('/coupon_calculation','CouponCalculation');
+        Route::get('/coupon-remove','CouponRemove');
     });
+
+    
 });
+
 
 Route::get('/vendor/details/{id}',[VendorDetailsController::class,'VendorDetails'])->name('vendorDetailsInfo');
 Route::get('vendor/list/',[VendorListGridController::class,'VendorList'])->name('vendor_list');
