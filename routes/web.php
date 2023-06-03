@@ -20,6 +20,7 @@ use App\Http\Controllers\Frontend\ProductDetails;
 use App\Http\Controllers\Frontend\VendorDetailsController;
 use App\Http\Controllers\Frontend\VendorListGridController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\Shipping\ShippingProductController;
 use App\Http\Controllers\Frontend\User\WishlistController;
 use App\Http\Controllers\Frontend\User\CompareProductController;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -270,6 +271,17 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::post('/apply_coupon','CouponApply');
         Route::get('/coupon_calculation','CouponCalculation');
         Route::get('/coupon-remove','CouponRemove');
+
+        // Checkout Page
+        Route::get('/checkout/','CheckoutPageCreate')->name('checkoutPage');
+    });
+
+    Route::controller(ShippingProductController::class)->group(function(){
+        Route::get('/get_district_data/{id}','GetDistrict');
+        Route::get('/get_state_data/{id}','GetState');
+        
+        
+        Route::post('/checkout/store/payment/','CheckoutStorePayment')->name('checkout_store_payment');
     });
 
     

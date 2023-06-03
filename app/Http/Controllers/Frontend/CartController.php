@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Product\Product;
 use App\Models\Coupon\Coupon;
+use App\Models\Shipping\shippingDivision;
+use App\Models\User;
 use Carbon\Carbon;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
@@ -237,5 +240,39 @@ class CartController extends Controller
     public function CouponRemove(){
         Session::forget('coupon');
         return response()->json(['success' => 'Coupon Remove Successfully']);
+    }
+
+
+    // Checkout page
+    public function CheckoutPageCreate(){
+        if(Auth::check()){
+
+        if(Cart::getTotal() > 0){
+
+            $carts = Cart::getContent();
+            $cartQty = Cart::getTotalQuantity();
+            $cartTotal =  Cart::getTotal();
+
+            $id = auth()->user()->id;
+            $data = User::select('username','email','phone','address')->where('id',$id)->first();
+            $divisions = shippingDivision::all();
+
+            return view('frontend.checkoutPage',compact('carts','cartQty','cartTotal','data','divisions'));
+        }
+        else{
+            $notification = array(
+                'message' => 'Your cart is empty. Please choose at-least one product',
+                'alert-type' => 'warning'
+            );
+            return redirect()->to('/')->with($notification);
+        }
+    }
+        else{
+            $notification = array(
+                'message' => 'Login first before checkout',
+                'alert-type' => 'danger'
+            );
+            return redirect()->route('login')->with($notification);
+        }
     }
 }
