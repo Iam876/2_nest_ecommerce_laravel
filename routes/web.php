@@ -23,6 +23,7 @@ use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\Shipping\ShippingProductController;
 use App\Http\Controllers\Frontend\User\WishlistController;
 use App\Http\Controllers\Frontend\User\CompareProductController;
+use App\Http\Controllers\Frontend\User\StripeController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 
@@ -116,6 +117,7 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/delete/multiImages/{id}','DeleteMultiImages')->name('delete_multi_images');
     });
 
+    // Slider Portion CRUD
     Route::controller(SliderController::class)->group(function(){
         Route::get('all/slider/','AllSlider')->name('all.slider');
         Route::post('/add_slider/','AddSlider');
@@ -127,6 +129,7 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/inactive_slider/{id}','InactiveSlider');
     });
 
+    // Banner Portion CRUD
     Route::controller(BannerController::class)->group(function(){
         Route::get('all/banner/','AllBanner')->name('all.banner');
         Route::post('/add_banner/','AddBanner');
@@ -138,6 +141,7 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/inactive_banner/{id}','InactiveBanner');
     });
 
+    // Banner Portion CRUD
     Route::controller(CouponController::class)->group(function(){
         Route::get('all/coupon/','AllCoupon')->name('all.coupon');
         Route::post('/add_coupon/','AddCoupon');
@@ -148,6 +152,8 @@ Route::middleware(['auth','role:admin'])->group(function(){
         Route::get('/edit_coupon/{id}','EditCoupon');
         Route::post('/update_coupon/{id}','UpdateCoupon');
     });
+
+    // Shipping Location Portion CRUD
     Route::controller(shippingController::class)->group(function(){
         Route::get('all/division/','AllDivision')->name('all.division');
         Route::post('/division_add/','InsertDivision');
@@ -178,7 +184,7 @@ Route::middleware(['auth','role:admin'])->group(function(){
     });
 });
 
-
+// Admin + Vendor + User + Register part
 Route::get('/admin/login',[adminController::class,'AdminLogin'])->name('admin.adminLogin')->middleware(RedirectIfAuthenticated::class);
 Route::get('/vendor/login',[vendorController::class,'VendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
 Route::get('/become/vendor',[vendorController::class,'BecomeVendor'])->name('become.vendor')->middleware(RedirectIfAuthenticated::class);
@@ -231,7 +237,7 @@ Route::get('/phpinfo', function() {
 
 Route::middleware(['auth','role:user'])->group(function(){
     
-
+// Product Details Page
     Route::controller(ProductDetails::class)->group(function(){
         Route::get('product/details/{id}/{slug}','ProductDetails');
         Route::get('category/product/{id}/{slug}','CategoryProduct');
@@ -239,6 +245,7 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/product/modal/view/{id}','ProductModalView');
     });
 
+// WishList Part
     Route::controller(WishlistController::class)->group(function(){
         Route::post('/product/addToWishList/{product_id}','InsertWishList');
         Route::get('shop/wishlist/','viewWishList')->name('shop_wishlist');
@@ -246,13 +253,15 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/wish/product/remove/{id}','wishProductRemove');
     });
     
+// Compared Product
     Route::controller(CompareProductController::class)->group(function(){
         Route::get('all/product/compare/','productComparePage')->name('product_compare');
         Route::post('/product/compare/{product_id}','InsertProductCompare');
         Route::get('/show/compare/product/','ShowCompareProduct');
         Route::get('/compare/product/remove/{id}','CompareProductRemove');
     });
-    
+
+// Cart Functionality
     Route::controller(CartController::class)->group(function(){
         Route::post('/cart/data/store/{id}','AddToCart');
         Route::post('/cart/data/store/wish/{id}','AddToCartWish');
@@ -276,12 +285,16 @@ Route::middleware(['auth','role:user'])->group(function(){
         Route::get('/checkout/','CheckoutPageCreate')->name('checkoutPage');
     });
 
+// Shipping Info
     Route::controller(ShippingProductController::class)->group(function(){
         Route::get('/get_district_data/{id}','GetDistrict');
         Route::get('/get_state_data/{id}','GetState');
-        
-        
         Route::post('/checkout/store/payment/','CheckoutStorePayment')->name('checkout_store_payment');
+    });
+// Stripe Portion
+    Route::controller(StripeController::class)->group(function(){
+        Route::post('/stripe/order','StripeOrder')->name('stripe.order');
+        Route::post('/cod/order','CodOrder')->name('cod.order');
     });
 
     

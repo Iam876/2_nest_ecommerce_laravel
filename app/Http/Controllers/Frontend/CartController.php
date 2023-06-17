@@ -21,7 +21,11 @@ class CartController extends Controller
          
         try {
             $product = Product::findOrFail($id);
-        // $rowId = Str::uuid()->toString();
+            
+            if(Session::has('coupon')){
+                Session::forget('coupon');
+            }
+
         if ($product->discount_price == NULL) {
             cart::add([
                 'id' => $id,
@@ -32,6 +36,7 @@ class CartController extends Controller
                     'image' =>$product->product_thumbnail,
                     'color' => $request->color,
                     'size' => $request->size,
+                    'vendor' =>$request->vendor
                 ),
             ]);
             return response()->json(['success'=>'Successfully added to cart']);
@@ -46,6 +51,7 @@ class CartController extends Controller
                     'color' => $request->color,
                     'size' => $request->size,
                     'slug' => $product->product_slug,
+                    'vendor' =>$request->vendor
                 ),
                 
             ]);
@@ -122,10 +128,23 @@ class CartController extends Controller
             'cartQty' => $cartQty,  
             'cartTotal' => $cartTotal
         ]);
+       
     }
 
     public function CartProductRemove($id){
         Cart::remove($id);
+
+        if(Session::has('coupon')){
+            $coupon_name = Session::get('coupon')['coupon_name'];
+            $coupon = Coupon::where('coupon_name',$coupon_name)->first();
+
+           Session::put('coupon',[
+                'coupon_name' => $coupon->coupon_name, 
+                'coupon_discount' => $coupon->coupon_discount, 
+                'discount_amount' => round(Cart::getTotal() * $coupon->coupon_discount/100), 
+                'total_amount' => round(Cart::getTotal() - Cart::getTotal() * $coupon->coupon_discount/100 )
+            ]); 
+        }
         return response()->json([ 'success' => 'Product Remove From Cart' ]);
     }
 
@@ -175,6 +194,10 @@ class CartController extends Controller
     }
 
     public function AddToCartMainPage($id){
+
+        if(Session::has('coupon')){
+            Session::forget('coupon');
+        }
 
         $product = Product::findOrFail($id);
     if ($product->discount_price == NULL) {

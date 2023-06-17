@@ -42,6 +42,8 @@ $(document).ready(function(){
 
             $("#Modalbrand").text(response.product.brand.brand_name);
             $("#ModalVendor").text(response.product.vendor.name);
+            $("#ModalVendor").attr("data-value", response.product.vendor.id);
+
             $("#ModalProductCode").text(response.product.product_code);
             $("#ModalStock").text(response.product.product_qty+" Items In Stock");
             $("#ModalCategory").text(response.product.category.category_name);
@@ -116,7 +118,8 @@ $(document).on("click","#addToCart",function(){
     var id = $(this).val();
     var product_name = $(".title-detail a").text();
     var product_color = $("#ModalColors li.active a").data("value");
-    var product_size = $("#ModalSize li.active a").data("value");    
+    var product_size = $("#ModalSize li.active a").data("value");
+    var vendor = $("#ModalVendor").data("value");
     var qty = $("#qty").val();
     $.ajaxSetup({
         headers: {
@@ -129,7 +132,7 @@ $(document).on("click","#addToCart",function(){
         type:"POST",
         dataType:'json',
         data:{
-            name : product_name, color:product_color, size:product_size, quantity:qty
+            name : product_name, color:product_color, size:product_size, quantity:qty,vendor:vendor
         },
         success: function(response){
             $('.modal').modal("hide");
@@ -312,6 +315,7 @@ $(document).on("click","#DetailAddToCart",function(){
     var product_color = $("#ProductColor li.active a").data("value");
     var product_size = $("#ProductSize li.active a").data("value");    
     var qty = $("#ProductQty").val();
+    var vendor = $("#productDetailsVendorId").data("value");
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -323,7 +327,7 @@ $(document).on("click","#DetailAddToCart",function(){
         type:"POST",
         dataType:'json',
         data:{
-            name : product_name, color:product_color, size:product_size, quantity:qty
+            name : product_name, color:product_color, size:product_size, quantity:qty,vendor:vendor,
         },
         success: function(response){
             miniCart();

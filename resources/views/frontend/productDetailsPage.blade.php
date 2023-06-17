@@ -131,7 +131,7 @@
                 <a href="#" rel="tag" value="{{$tags}}">{{$tags}}</a>
                 @endforeach
             </li>
-            <li class="mb-5">vendor: <span class="text-brand">{{$products->vendor->name}}</span></li>
+            <li class="mb-5">vendor: <span class="text-brand" id="productDetailsVendorId" data-value="{{$products->vendor->id}}">{{$products->vendor->name}}</span></li>
 
         </ul>
         <ul class="float-start">

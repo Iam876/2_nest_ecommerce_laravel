@@ -94,8 +94,8 @@
                 </div>
 
                 
-<div class="col-lg-5">
-        <div class="border p-40 cart-totals ml-30 mb-50">
+            <div class="col-lg-5">
+            <div class="border p-40 cart-totals ml-30 mb-50">
             <div class="d-flex align-items-end justify-content-between mb-30">
                 <h4>Your Order</h4>
                 <h6 class="text-muted">Subtotal</h6>
@@ -124,7 +124,7 @@
 
 
 
-        <table class="table no-border">
+                <table class="table no-border">
                 <tbody>
                     @if (Session::has('coupon'))
                     {{-- @dd() --}}
@@ -139,7 +139,7 @@
                     
                     <tr>
                         <td class="cart_total_label">
-                            <h6 class="text-muted">Coupn Name</h6>
+                            <h6 class="text-muted">Coupon Name</h6>
                         </td>
                         <td class="cart_total_amount">
                             <h6 class="text-brand text-end">{{session()->get('coupon')['coupon_name']}} ({{session()->get('coupon')['coupon_discount']}}%)</h6>
@@ -185,10 +185,10 @@
                     @endif
                     
                 </tbody>
-            </table>
+                </table>
 
             </div>
-        </div>
+         </div>
                     <div class="payment ml-30">
                         <h4 class="mb-30">Payment</h4>
                         <div class="payment_option">
