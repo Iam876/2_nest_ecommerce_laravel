@@ -20,14 +20,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('phone');
-            $table->string('adress')->nullable();
+            $table->string('address')->nullable();
             $table->string('post_code')->nullable();
             $table->text('notes')->nullable();
             $table->string('payment_type')->nullable();
             $table->string('payment_method')->nullable();
             $table->string('transaction_id')->nullable();
             $table->string('currency');
-            $table->float('amount',8,2);
+            $table->float('amount', 8, 2);
             $table->string('order_number')->nullable();
             $table->string('invoice_no');
             $table->string('order_date');
@@ -39,9 +39,10 @@ return new class extends Migration
             $table->string('shipped_date')->nullable();
             $table->string('delivered_date')->nullable();
             $table->string('cancel_date')->nullable();
+            $table->string('cancel_reason')->nullable();
             $table->string('return_date')->nullable();
             $table->string('return_reason')->nullable();
-            $table->string('status'); 
+            $table->string('status');
             $table->timestamps();
         });
     }

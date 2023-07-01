@@ -98,6 +98,22 @@
 						</li>
 					</ul>
 				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-coupon"></i>
+						</div>
+						<div class="menu-title">Delivery Manage</div>
+					</a>
+					<ul>
+						<li> <a href="{{route('Pending.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Pending Order</a>
+						</li>
+						<li> <a href="{{route('Confirm.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Confirm Order</a>
+						</li>
+						<li> <a href="{{route('Processing.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Processing Order</a>
+						<li> <a href="{{route('Delivered.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Delivered Order</a>
+						</li>
+					</ul>
+				</li>
 				<li class="menu-label">Vendor</li>
 				<li>
 					<a href="javascript:;" class="has-arrow">
