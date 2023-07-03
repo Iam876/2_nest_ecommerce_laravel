@@ -60,14 +60,27 @@
                                                                 
                                                                 <td>
                                                                     
-                                                                   @if ($order->status == 'pending')
-                                                                        <span class="badge bg-primary">pending</span>
-                                                                   @elseif($order->status == 'confirm')
+                                                                   @if ($order->status == 'pending')       
+                                                                        @if($order->cancel_status == 1)
+                                                                            <span class="badge bg-warning">Cancel progressing</span>
+                                                                        @elseif($order->cancel_status == 2)
+                                                                            <span class="badge bg-danger">Canceled</span>
+                                                                        @else
+                                                                            <span class="badge bg-primary">pending</span>
+                                                                        @endif
+                                                                   @elseif($order->status == 'confirmed')
                                                                         <span class="badge bg-secondary">Confirm</span>
                                                                    @elseif($order->status == 'processing')
                                                                         <span class="badge bg-info">Processing</span>
                                                                    @elseif($order->status == 'delivered')
-                                                                        <span class="badge bg-success">Delivered</span>
+                                                                        @if($order->return_status == 1)
+                                                                            <span class="badge bg-warning">Return progressing</span>
+                                                                        @elseif($order->return_status == 2)
+                                                                            <span class="badge bg-danger">Returned</span>
+                                                                        @else
+                                                                            <span class="badge bg-success">Delivered</span>
+                                                                        @endif
+                                                                        
                                                                    @endif
                                                                 </td>
                                                                 <td>${{$order->amount}}</td>

@@ -11,6 +11,9 @@
                 <a class="nav-link {{($route == 'user.order.page')?'active':''}}" href="{{Route('user.order.page')}}"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{($route == 'user.cancel&return.order.page')?'active':''}}" href="{{Route('user.cancel&return.order.page')}}"><i class="fi-rs-shopping-bag mr-10"></i>Cancel & Return Order</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link {{($route == 'user.trackOrder.page')?'active':''}}" href="{{Route('user.trackOrder.page')}}"><i class="fi-rs-shopping-cart-check mr-10"></i>Track Your Order</a>
             </li>
             <li class="nav-item">

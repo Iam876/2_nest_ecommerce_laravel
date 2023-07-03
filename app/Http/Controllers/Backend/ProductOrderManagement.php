@@ -19,22 +19,22 @@ class ProductOrderManagement extends Controller
     public function PendingProductManage()
     {
         $pending_order = Order::where('status', 'pending')->orderBy('id', 'DESC')->latest()->get();
-        return view('backend.pendingProduct.pendingProduct', compact('pending_order'));
+        return view('backend.order.pendingProduct', compact('pending_order'));
     }
     public function ConfirmProductManage()
     {
         $confirmed_order = Order::where('status', 'confirmed')->orderBy('id', 'DESC')->latest()->get();
-        return view('backend.pendingProduct.confirmProduct', compact('confirmed_order'));
+        return view('backend.order.confirmProduct', compact('confirmed_order'));
     }
     public function ProcessingProductManage()
     {
         $processing_order = Order::where('status', 'processing')->orderBy('id', 'DESC')->latest()->get();
-        return view('backend.pendingProduct.processingProduct', compact('processing_order'));
+        return view('backend.order.processingProduct', compact('processing_order'));
     }
     public function DeliveredProductManage()
     {
         $delivered_order = Order::where('status', 'delivered')->orderBy('id', 'DESC')->latest()->get();
-        return view('backend.pendingProduct.deliveredProduct', compact('delivered_order'));
+        return view('backend.order.deliveredProduct', compact('delivered_order'));
     }
 
     public function VendorOrder()
@@ -48,7 +48,7 @@ class ProductOrderManagement extends Controller
     {
         $orders = Order::where('id', $id)->with('user', 'division', 'district', 'state', 'OrderItem')->orderBy('id', 'DESC')->get();
         $orderItem = OrderItem::where('order_id', $id)->with('product', 'vendor')->orderBy('id', 'DESC')->get();
-        return view('backend.pendingProduct.OrderStatusPage', compact('orders', 'orderItem'));
+        return view('backend.order.OrderStatusPage', compact('orders', 'orderItem'));
     }
     public function PendingToConfirm($id)
     {
@@ -68,7 +68,7 @@ class ProductOrderManagement extends Controller
     {
         $orders = Order::where('id', $id)->with('user', 'division', 'district', 'state', 'OrderItem')->orderBy('id', 'DESC')->get();
         $orderItem = OrderItem::where('order_id', $id)->with('product', 'vendor')->orderBy('id', 'DESC')->get();
-        return view('backend.pendingProduct.OrderStatusPage', compact('orders', 'orderItem'));
+        return view('backend.order.OrderStatusPage', compact('orders', 'orderItem'));
     }
     public function ConfirmedToProcessing($id)
     {
@@ -88,7 +88,7 @@ class ProductOrderManagement extends Controller
     {
         $orders = Order::where('id', $id)->with('user', 'division', 'district', 'state', 'OrderItem')->orderBy('id', 'DESC')->get();
         $orderItem = OrderItem::where('order_id', $id)->with('product', 'vendor')->orderBy('id', 'DESC')->get();
-        return view('backend.pendingProduct.OrderStatusPage', compact('orders', 'orderItem'));
+        return view('backend.order.OrderStatusPage', compact('orders', 'orderItem'));
     }
     public function ProcessingToDelivered($id)
     {
@@ -123,7 +123,7 @@ class ProductOrderManagement extends Controller
         $orders = Order::where('id', $id)->with('user', 'division', 'district', 'state', 'OrderItem')->orderBy('id', 'DESC')->get();
         $orderItem = OrderItem::where('order_id', $id)->with('product', 'vendor')->orderBy('id', 'DESC')->get();
 
-        $pdf = PDF::loadView('backend.pendingProduct.customerInvoice', compact('orders', 'orderItem'))->setPaper('a4')->setOption([
+        $pdf = PDF::loadView('backend.order.customerInvoice', compact('orders', 'orderItem'))->setPaper('a4')->setOption([
             'tempDir' => public_path(),
             'chroot'  => public_path(),
         ]);

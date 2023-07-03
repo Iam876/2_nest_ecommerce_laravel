@@ -7,6 +7,7 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -55,5 +56,53 @@ class AllUserController extends Controller
         ]);
 
         return $pdf->download('invoice.pdf');
+    }
+
+
+    // Cancel & Return Order
+    public function CancelReturn()
+    {
+        $id = Auth::User()->id;
+        // $orders = Order::where('user_id', $id)->whereNotNull('return_status')->whereNotNull('cancel_status')->orderBy('id', 'DESC')->with('OrderItem')->get();
+        $orders = Order::where('user_id', $id)->where(function ($query) {
+            $query->where(function ($subquery) {
+                $subquery->whereNotNull('return_status')
+                    ->whereNull('cancel_status');
+            })->orWhere(function ($subquery) {
+                $subquery->whereNull('return_status')
+                    ->whereNotNull('cancel_status');
+            });
+        })->orderBy('id', 'DESC')->with('OrderItem')->get();
+
+        return view('frontend.userDashboard.cancel&return', compact('orders'));
+    }
+    public function cancelOrder(Request $request, $id)
+    {
+        Order::findOrFail($id)->update([
+            'cancel_date' => Carbon::now()->format('d F Y'),
+            'cancel_reason' => $request->cancel_order,
+            'cancel_status' => 1
+        ]);
+
+        $notification = array(
+            'message' => 'Order cancel request sent successfully',
+            'alert-type' => 'success'
+        );
+
+        return view('frontend.userDashboard.cancel&return')->with($notification);
+    }
+    public function returnOrder(Request $request, $id)
+    {
+        Order::findOrFail($id)->update([
+            'return_date' => Carbon::now()->format('d F Y'),
+            'return_reason' => $request->return_reason,
+            'return_status' => 1
+        ]);
+
+        $notification = array(
+            'message' => 'Return request sent successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('cancel&return.order.page')->with($notification);
     }
 }

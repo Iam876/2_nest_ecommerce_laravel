@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\shippingController;
 use App\Http\Controllers\Backend\ProductOrderManagement;
+use App\Http\Controllers\Backend\CancelReturnProductController;
 
 
 use App\Http\Controllers\Frontend\ProductDetails;
@@ -208,6 +209,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         // Admin Invoice Download
         Route::get('admin/order/invoice/{order_id}', 'AdminOrderInvoiceDownload')->name('admin.order.invoice');
     });
+    Route::controller(CancelReturnProductController::class)->group(function () {
+        // Cancel Order
+        Route::get('cancel/order/manage', 'CancelOrderManage')->name('cancel.order.manage');
+        Route::get('confirm/cancel/order/manage', 'ConfirmManageList')->name('Confirm.canceled.order.manage');
+        // Pending cancel To Confirm Cancel Order 
+        Route::get('/pending/cancel/order/{order_id}', 'PendingCancelOrder')->name('pending.cancel.order');
+        Route::get('/pending/cancel/confirm/order/{order_id}', 'ConfirmCancelOrder');
+        Route::get('/delete/canceled/{order_id}', 'CancelDeleteOrder')->name('delete.canceled.order');
+
+        // Return Order
+        Route::get('return/order/manage', 'ReturnOrderManage')->name('return.order.manage');
+        Route::get('confirm/return/order/manage', 'ConfirmReturnManageList')->name('Confirm.returned.order.manage');
+        // Pending cancel To Confirm Cancel Order 
+        Route::get('/pending/return/order/{order_id}', 'PendingReturnOrder')->name('pending.return.order');
+        Route::get('/pending/return/confirm/order/{order_id}', 'ConfirmReturnOrder');
+        Route::get('/delete/returned/{order_id}', 'ReturnDeleteOrder')->name('delete.returned.order');
+    });
 });
 
 // Admin + Vendor + User + Register part
@@ -335,6 +353,11 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/user/changePassword/page/', 'UserChangePasswordPage')->name('user.changePassword.page');
         Route::get('/user/orderDetails/page/{order_id}', 'UserOrderDetailsPage');
         Route::get('/user/orderInvoice/page/{order_id}', 'UserOrderInvoicePage');
+
+        // Cancel & Return Order
+        Route::get('user/cancel&Return/order/page', 'CancelReturn')->name('user.cancel&return.order.page');
+        Route::post('/cancel/order/{order_id}', 'cancelOrder')->name('cancel.order');
+        Route::post('/return/order/{order_id}', 'returnOrder')->name('return.order');
     });
 });
 

@@ -1,27 +1,27 @@
-<!--End header-->
-@extends('dashboardMaster')
-<!--End header-->
-@section('dashboard')
-<main class="main pages">
-<div class="page-header breadcrumb-wrap">
-<div class="container">
-<div class="breadcrumb">
-    <a href="index.html" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
-    <span></span> Pages <span></span> Order
-</div>
-</div>
-</div>
-@foreach ($orders as $order)
-@endforeach
-<div class="page-content pt-150 pb-150">
-<div class="container">
-<div class="row">
-    <div class="col-lg-10 m-auto">
-        <div class="row">
-            {{-- Menu Start --}}
-            @include('frontend.layouts.UserDashboardSideBar')
-            {{-- Menu End --}}
-            <div class="col-md-9">
+@extends('admin.adminMasterDashboard')
+    
+    @section('main-content')
+	
+    <main class="main pages">
+        <div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">Pending Products</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">All Pending Products</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+				<h6 class="mb-0 text-uppercase">Pending Products</h6>
+				<hr/>
+        @foreach ($orders as $order)
+        @endforeach
                 <div class="card">
                     <div class="card">
                       <div class="card-header">
@@ -50,14 +50,7 @@
                                 <div>
                                   <span class="d-inline-block">Order status:</span>
                                   @if ($order->status == 'pending')
-                                      @if($order->cancel_status == 1)
-                                        <strong class="order-detail-value btn-sm btn-warning">cancel progresssing</strong>
-                                      @elseif($order->cancel_status == 2)
-                                        <strong class="order-detail-value btn-sm btn-danger">canceled</strong>
-                                      @else
-                                        <strong class="order-detail-value">Pending</strong>
-                                      @endif
-                                  
+                                  <strong class="order-detail-value">Pending</strong>
                                   @elseif($order->status == 'confirmed')
                                       <strong class="order-detail-value">Confirm</strong>
                                   @elseif($order->status == 'processing')
@@ -205,52 +198,12 @@
                               </p>
                               <div class="mt-2 row">
                                 <div class="col-auto me-auto">
-                                  <a href="{{url('/user/orderInvoice/page/'.$order->id)}}" class="btn btn-info btn-sm">
-                                    <i class="fa fa-download"></i> Download invoice </a>
-                                </div>
-
-                                
-                                @if($order->status == 'pending')
-                                  @if ($order->cancel_status == NULL)
-                                  
-                                  @else
-                                  <div class="col-auto">
-                                    <form action="{{Route('cancel.order',$order->id)}}" method="POST">
-                                        @csrf
-                                          <select class="form-select mb-3" aria-label="Default select example" name="cancel_order">
-                                            <option selected="">Cancel order reason</option>
-                                            <option value="Accidental order">Accidental order</option>
-                                            <option value="Found a better price elsewhere">Found a better price elsewhere</option>
-                                            <option value="Made a duplicate order">Made a duplicate order</option>
-                                          </select>
-                                          <button class="btn btn-danger btn-sm ml-2">Cancel order</button>
-                                    </form>
-                                  </div>
-                                  @endif
-                                  
-                                @elseif($order->status == 'delivered')
-                                  @if ($order->return_status == NULL)
-                                    <div class="col-auto">
-                                      <form action="{{Route('return.order',$order->id)}}" method="POST">
-                                        @csrf
-                                          <select class="form-select mb-3" aria-label="Default select example" name="return_reason">
-                                            <option selected="">Return order reason</option>
-
-                                            <option value="Product doesn't match the description">Product doesn't match the description</option>
-                                            <option value="Defective or damaged product">Defective or damaged product</option>
-                                            <option value="Wrong product received">Wrong product received</option>
-                                            <option value="Size/color/style doesn't match">Size/color/style doesn't match</option>
-                                            <option value="Received expired product">Received expired product</option>
-                                            <option value="Product doesn't meet quality expectations">Product doesn't meet quality expectations</option>
-                                            <option value="Received duplicate product">Received duplicate product</option>
-                                            <option value="Inaccurate product image">Inaccurate product image</option>
-                                          </select>
-                                          <button class="btn btn-danger btn-sm ml-2">Return order</button>
-                                      </form>
-                                    </div>
-                                    @else
-                                  @endif
+                                @if ($order->return_status == 1)
+                                    <a href="{{url('/pending/return/confirm/order/'.$order->id)}}" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-download"></i> Confirm Return </a>
+                                @else
                                 @endif
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -258,12 +211,5 @@
                       </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
-</main>
-@endsection
-
+    </main>
+    @endsection

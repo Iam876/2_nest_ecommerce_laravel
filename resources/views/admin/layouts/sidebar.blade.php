@@ -98,11 +98,12 @@
 						</li>
 					</ul>
 				</li>
+				<li class="menu-label">Delivery</li>
 				<li>
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class="bx bx-coupon"></i>
 						</div>
-						<div class="menu-title">Delivery Manage</div>
+						<div class="menu-title">Order Manage</div>
 					</a>
 					<ul>
 						<li> <a href="{{route('Pending.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Pending Order</a>
@@ -111,6 +112,32 @@
 						</li>
 						<li> <a href="{{route('Processing.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Processing Order</a>
 						<li> <a href="{{route('Delivered.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Delivered Order</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-coupon"></i>
+						</div>
+						<div class="menu-title">Cancel Order</div>
+					</a>
+					<ul>
+						<li> <a href="{{route('cancel.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Pending Cancel Order</a>
+						</li>
+						<li> <a href="{{route('Confirm.canceled.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Canceled Order</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-coupon"></i>
+						</div>
+						<div class="menu-title">Return Order</div>
+					</a>
+					<ul>
+						<li> <a href="{{route('return.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Pending Return Order</a>
+						</li>
+						<li> <a href="{{route('Confirm.returned.order.manage')}}"><i class="bx bx-right-arrow-alt"></i>Return Order</a>
 						</li>
 					</ul>
 				</li>
