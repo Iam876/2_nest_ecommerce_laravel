@@ -1,82 +1,87 @@
-$(document).ready(function(){
-
-    $(document).on("click","#ProductWishListIcon",function(){
+$(document).ready(function () {
+    $(document).on("click", "#ProductWishListIcon", function () {
         var product_id = $(this).data("id");
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
         });
         $.ajax({
-            url:"/product/addToWishList/"+product_id,
-            type:"POST",
-            dataType:"JSON",
-            success: function(response){
+            url: "/product/addToWishList/" + product_id,
+            type: "POST",
+            dataType: "JSON",
+            success: function (response) {
                 ShowWishListProduct();
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
-                    
-                    showConfirmButton: false,
-                    timer: 2000 
-              })
-              if ($.isEmptyObject(response.error)) {
-                      
-                      Toast.fire({
-                      type: 'success',
-                      icon: 'success', 
-                      title: response.success, 
-                      })
-              }else{
-                 
-             Toast.fire({
-                      type: 'error',
-                      icon: 'error', 
-                      title: response.error, 
-                      })
-                  }
-                             
-            }
-        })
-    })
-    ShowWishListProduct();
-    function ShowWishListProduct(){
-        $.ajax({
-            url:"/all/wishlist/",
-            type:"GET",
-            dataType:"JSON",
-            success: function(response){
-                $("#totalProducts").text(response.wishQty);
-                $("#wishCount").text(response.wishQty);
+                    position: "top-end",
 
-                 
-            if(response.wishlist.length === 0){
-                var empty = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+                if ($.isEmptyObject(response.error)) {
+                    Toast.fire({
+                        type: "success",
+                        icon: "success",
+                        title: response.success,
+                    });
+                } else {
+                    Toast.fire({
+                        type: "error",
+                        icon: "error",
+                        title: response.error,
+                    });
+                }
+            },
+        });
+    });
+    ShowWishListProduct();
+    function ShowWishListProduct() {
+        $.ajax({
+            url: "/all/wishlist/",
+            type: "GET",
+            dataType: "JSON",
+            success: function (response) {
+                $("#totalProducts").text(response.wishQty);
+                if (response.wishQty) {
+                    $("#wishCount").text(response.wishQty);
+                } else {
+                    $("#wishCount").text(0);
+                }
+
+                if (response.wishlist.length === 0) {
+                    var empty = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
                                  Wishlist is empty. Please Add Some product.
                             </div>`;
-                $("#wishListMessage").html(empty);
-                $("#wishHead").hide();
-                $("#WishShow").hide();
-            }else{
-                var wishlistIterate = '';
-                var wishHeader = `<tr class="main-heading">
+                    $("#wishListMessage").html(empty);
+                    $("#wishHead").hide();
+                    $("#WishShow").hide();
+                } else {
+                    var wishlistIterate = "";
+                    var wishHeader = `<tr class="main-heading">
                                     <th class="pl-30" scope="col" colspan="2">Product</th>
                                     <th scope="col">Price</th>
                                     <th scope="col">Stock Status</th>
                                     <th scope="col">Action</th>
                                     <th scope="col" class="end">Remove</th>
                                 </tr>`;
-                const domain = window.location.origin;
-                $.each(response.wishlist,function(key,value){
-                    var price = value.product.discount_price === null ? value.product.selling_price : value.product.discount_price;
-                    var stock = value.product.product_qty > 0 ?
-                     `<span class="stock-status in-stock mb-0"> In Stock </span>`
-                      : `<span class="stock-status out-stock mb-0"> Stock Out </span>`;
+                    const domain = window.location.origin;
+                    $.each(response.wishlist, function (key, value) {
+                        var price =
+                            value.product.discount_price === null
+                                ? value.product.selling_price
+                                : value.product.discount_price;
+                        var stock =
+                            value.product.product_qty > 0
+                                ? `<span class="stock-status in-stock mb-0"> In Stock </span>`
+                                : `<span class="stock-status out-stock mb-0"> Stock Out </span>`;
 
-                    var cart = value.product.product_qty > 0 ? `<button class="btn btn-sm" data-value="${value.product.id}" id="addToCartWish">Add to cart</button>`:
-                        ` <button class="btn btn-sm btn-secondary">Contact Us</button>`;
+                        var cart =
+                            value.product.product_qty > 0
+                                ? `<button class="btn btn-sm" data-value="${value.product.id}" id="addToCartWish">Add to cart</button>`
+                                : ` <button class="btn btn-sm btn-secondary">Contact Us</button>`;
 
-                    wishlistIterate+=`
+                        wishlistIterate += `
                 <tr class="pt-30">  
                         <td class="image product-thumbnail pt-40 pl-30"><img src="${domain}/${value.product.product_thumbnail}" alt="#" /></td>
                         <td class="product-des product-name">
@@ -103,42 +108,41 @@ $(document).ready(function(){
                         </td>
                 </tr>
                     `;
-                });
-                $("#wishHead").html(wishHeader);
-                $("#WishShow").html(wishlistIterate);
-            }
-            }
-        })
+                    });
+                    $("#wishHead").html(wishHeader);
+                    $("#WishShow").html(wishlistIterate);
+                }
+            },
+        });
     }
 
-    $(document).on("click","#WishListRemove",function(){
+    $(document).on("click", "#WishListRemove", function () {
         var id = $(this).data("id");
         $.ajax({
-            url:"/wish/product/remove/"+id,
-            type:"GET",
-            dataType:"JSON",
-            success:function(response){
+            url: "/wish/product/remove/" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function (response) {
                 ShowWishListProduct();
                 const Toast = Swal.mixin({
                     toast: true,
-                    position: 'top-end',
-                    icon: 'success', 
+                    position: "top-end",
+                    icon: "success",
                     showConfirmButton: false,
-                    timer: 2000 
-                })
-                if ($.isEmptyObject(response.error)){
-                        Toast.fire({
-                        type: 'success',
-                        title: response.success, 
-                        })
-                }else{
-                Toast.fire({
-                        type: 'error',
-                        title: response.error, 
-                        })
-                    }
-            }
-        })
+                    timer: 2000,
+                });
+                if ($.isEmptyObject(response.error)) {
+                    Toast.fire({
+                        type: "success",
+                        title: response.success,
+                    });
+                } else {
+                    Toast.fire({
+                        type: "error",
+                        title: response.error,
+                    });
+                }
+            },
+        });
     });
-
-})
+});

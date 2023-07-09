@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\vendorController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SocialLoginAPIController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubcategoryController;
@@ -233,6 +234,21 @@ Route::get('/admin/login', [adminController::class, 'AdminLogin'])->name('admin.
 Route::get('/vendor/login', [vendorController::class, 'VendorLogin'])->name('vendor.login')->middleware(RedirectIfAuthenticated::class);
 Route::get('/become/vendor', [vendorController::class, 'BecomeVendor'])->name('become.vendor')->middleware(RedirectIfAuthenticated::class);
 Route::post('/register/vendor', [vendorController::class, 'RegisterVendor'])->name('register.vendor')->middleware(RedirectIfAuthenticated::class);
+
+// Social Login
+Route::controller(SocialLoginAPIController::class)->group(function () {
+    // Google Login + Registration
+    Route::get('/gotoGoogle', 'goToGoogle')->name('gotogoogle');
+    Route::get('/Gstore', 'storeGoogleData');
+    Route::post('/setPassword{sid}', 'setPassword')->name('set.password');
+    // Facebook Login + Registration
+    Route::get('/gotoFacebook', 'goToFacebook')->name('gotofacebook');
+    Route::get('/facebook/login/callbacks/', 'storeFacebookData');
+    // GITHUB Login + Registration
+    Route::get('/gotoGithub', 'goToGithub')->name('gotogithub');
+    Route::get('/github/callbacks/', 'storeGithubData');
+});
+
 
 // Vendor Dashboard
 Route::middleware(['auth', 'role:vendor'])->group(function () {
