@@ -284,6 +284,7 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
 
     Route::controller(ProductOrderManagement::class)->group(function () {
         Route::get('/vendor/product/orders/', 'VendorOrder')->name('all.vendorOrders');
+        Route::get('/vendor/user/orders/info/show/{id}', 'VendorUserOrderInfo')->name('vendor.userOrderInfo');
     });
 });
 

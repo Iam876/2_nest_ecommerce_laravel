@@ -37,6 +37,8 @@ class ProductOrderManagement extends Controller
         return view('backend.order.deliveredProduct', compact('delivered_order'));
     }
 
+    // Vendor Part
+
     public function VendorOrder()
     {
         $id = Auth::user()->id;
@@ -44,6 +46,14 @@ class ProductOrderManagement extends Controller
         return view('vendor.vendorOrders', compact('vendor_order'));
     }
 
+    public function VendorUserOrderInfo($id)
+    {
+        $orders = Order::where('id', $id)->with('user', 'division', 'district', 'state', 'OrderItem')->orderBy('id', 'DESC')->get();
+        $orderItem = OrderItem::where('order_id', $id)->with('product', 'vendor')->orderBy('id', 'DESC')->get();
+        return view('vendor.userOrderStatus', compact('orders', 'orderItem'));
+    }
+
+    // Vendor Part End
     public function PendingStatusPage($id)
     {
         $orders = Order::where('id', $id)->with('user', 'division', 'district', 'state', 'OrderItem')->orderBy('id', 'DESC')->get();

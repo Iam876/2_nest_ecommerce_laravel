@@ -1,4 +1,4 @@
-@extends('admin.adminMasterDashboard')
+@extends('vendor.vendorMasterDashboard')
     
     @section('main-content')
 	
@@ -38,18 +38,37 @@
 								<tbody class="">
 									@php
 										$id = 1;
+										
 									@endphp
 									@if (count($vendor_order)>0)
+									
 										@foreach ($vendor_order as $vendorOrder)
 											<tr>
 												<td>{{$id++}}</td>
 												<td>{{$vendorOrder->orderItem->order_date}}</td>
 												<td>{{$vendorOrder->orderItem->invoice_no}}</td>
-												<td>{{$vendorOrder->orderItem->amount}}</td>
+												<td>{{($vendorOrder->price)*($vendorOrder->qty)}}</td>
+												{{-- <td>{{$vendorOrder->orderItem->amount}}</td> --}}
 												<td>{{$vendorOrder->orderItem->payment_type}}</td>
-												<td><span class="btn btn-outline-primary btn-sm">{{$vendorOrder->orderItem->status}}</span></td>
 												<td>
-													<button class="btn btn-primary">Welcome</button>
+													@if ($vendorOrder->orderItem->status == 'confirmed' && $vendorOrder->orderItem->return_status == NULL)
+													<span class="badge rounded-pill bg-light-primary text-primary w-50">Confirmed</span>
+													@elseif($vendorOrder->orderItem->status == 'pending' && $vendorOrder->orderItem->return_status == NULL)
+													<span class="badge rounded-pill bg-light-info text-info w-50">Pending</span>
+													@elseif($vendorOrder->orderItem->status == 'processing' && $vendorOrder->orderItem->return_status == NULL)
+													<span class="badge rounded-pill bg-light-info text-info w-50">Processing</span>
+													@elseif($vendorOrder->orderItem->status == 'delivered' && $vendorOrder->orderItem->return_status == NULL)
+													<span class="badge rounded-pill bg-light-success text-success w-50">Delivered</span>
+													@elseif($vendorOrder->orderItem->return_status == 1)
+													<span class="badge rounded-pill bg-light-warning text-warning w-50">Return Processing</span>
+													<span class="badge rounded-pill bg-light-success text-success w-50">Delivered</span>
+													@elseif($vendorOrder->orderItem->return_status == 2)
+													<span class="badge rounded-pill bg-light-danger text-danger w-50">Returned</span>
+													@endif
+												</td>
+													{{-- <span class="btn btn-outline-primary btn-sm">{{$vendorOrder->orderItem->status}}</span></td> --}}
+												<td>
+													<a href="{{Route('vendor.userOrderInfo',$vendorOrder->orderItem->id)}}" class="btn btn-primary">View</a>
 												</td>
 											</tr>
 										@endforeach
@@ -72,152 +91,5 @@
 						</div>
 					</div>
 				</div>
-
-				{{-- <!-- Modal To Add Data -->
-				<div class="modal" tabindex="-1" id="addDataModal">
-					<div class="modal-dialog">
-					  <div class="modal-content" id="AddForm myForm">
-						<div class="modal-header text-center d-block">
-						  <h5 class="modal-title">Add Slider</h5>
-						</div>
-						<div class="modal-body">
-							
-							<div class="row mb-3" class="form-group">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Slider Title</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" id="slider_title" class="form-control" value=""/>
-								</div>
-							</div>
-							<div class="row mb-3" class="form-group">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Slider Short</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" id="slider_short" class="form-control" value=""/>
-								</div>
-							</div>
-							<div class="row mb-3" class="form-group">
-								<div class="col-sm-3">
-									<h6 class="mb-0 text-sm">Slider Photo</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="file" id="slider_image" class="form-control"/>
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Photo</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<img src="" id="showImageSlider" alt="" width="110">
-								</div>
-							</div>
-                            <div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Select</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<select class="form-select mb-3" id="slider_status" aria-label="Default select example">
-										<option selected="">Open this select menu</option>
-										<option value="active">Active</option>
-										<option value="inactive">Inactive</option>
-									</select>
-								</div>
-							</div>
-						</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-								<button class="btn btn-primary px-4 " id="add_slider">Add Slider</button>
-							</div>
-						
-					  </div>
-					</div>
-				  </div>
-
-				  <!-- To Update Data -->
-				<div class="modal" tabindex="-1" id="updateModal">
-					<div class="modal-dialog">
-					  <div class="modal-content" id="AddForm myForm">
-						<div class="modal-header text-center d-block">
-						  <h5 class="modal-title">Update Slider</h5>
-						</div>
-						<div class="modal-body">
-
-							<div class="row mb-3" class="form-group">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Slider Title</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" id="edit_slider_title" class="form-control"/>
-								</div>
-							</div>
-							<div class="row mb-3" class="form-group">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Slider Short</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" id="edit_slider_short" class="form-control" value=""/>
-								</div>
-							</div>
-							<div class="row mb-3" class="form-group">
-								<div class="col-sm-3">
-									<h6 class="mb-0 text-sm">Slider Photo</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="file" id="edit_slider_image" class="form-control"/>
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Photo</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<img src="" id="edit_showImageSlider" alt="" width="110">
-								</div>
-							</div>
-                            <div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">Select</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<select class="form-select mb-3" id="edit_slider_status" aria-label="Default select example">
-										<option selected="">Open this select menu</option>
-										<option value="active">Active</option>
-										<option value="inactive">Inactive</option>
-									</select>
-								</div>	
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-								<button class="btn btn-primary px-4 " id="update_slider">Update</button>
-							</div>
-					  </div>
-					</div>
-				  </div>
-				</div>
-				  <!-- To Delete Data -->
-				<div class="modal" tabindex="-1" id="OpenDelete">
-					<div class="modal-dialog">
-					  <div class="modal-content" id="AddForm myForm">
-						<div class="modal-header text-center d-block">
-						  <h5 class="modal-title">Delete Data | This is not revertable</h5>
-						</div>
-						<div class="modal-body">
-							
-							<div class="row mb-3">
-								<h6 class="mb-0">Are you sure to delete ?</h6>
-						</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-								<button class="btn btn-danger px-4 " id="delete_data">Delete</button>
-							</div>
-						
-					  </div>
-					</div>
-				  </div>
-				 
-			</div> --}}
     </main>
     @endsection
