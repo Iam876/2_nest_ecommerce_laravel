@@ -1,5 +1,7 @@
 @extends('admin.adminMasterDashboard')
-    
+@section('title')
+Admin | All Coupon
+@endsection
     @section('main-content')
 	
     <main class="main pages">

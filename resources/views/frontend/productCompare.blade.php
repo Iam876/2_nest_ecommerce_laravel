@@ -1,4 +1,7 @@
 @extends('frontend.frontendMaster')
+@section('title')
+Compare Page
+@endsection
     <!--End header-->
     @section('main-section')
     <main class="main">

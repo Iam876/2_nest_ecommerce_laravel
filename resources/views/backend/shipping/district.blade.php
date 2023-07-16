@@ -1,4 +1,7 @@
 @extends('admin.adminMasterDashboard')
+@section('title')
+    Admin | All Disctrict
+@endsection
     
     @section('main-content')
     <main class="main pages">

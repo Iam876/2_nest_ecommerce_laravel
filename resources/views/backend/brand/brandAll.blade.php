@@ -1,4 +1,7 @@
 @extends('admin.adminMasterDashboard')
+@section('title')
+    Admin | All Category
+@endsection
     
     @section('main-content')
 	

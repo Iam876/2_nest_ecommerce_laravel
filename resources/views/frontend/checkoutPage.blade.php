@@ -1,4 +1,7 @@
 @extends('frontend.frontendMaster')
+@section('title')
+Checkout Page
+@endsection
     @section('main-section')
     <main class="main">
         <div class="page-header breadcrumb-wrap">

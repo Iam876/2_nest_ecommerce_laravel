@@ -17,7 +17,7 @@
 	<link href="{{asset('adminBackend')}}/assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="{{asset('adminBackend')}}/assets/css/app.css" rel="stylesheet">
 	<link href="{{asset('adminBackend')}}/assets/css/icons.css" rel="stylesheet">
-	<title>Rukada - Responsive Bootstrap 5 Admin Template</title>
+	<title>Admin Login</title>
 </head>
 
 <body class="bg-login">

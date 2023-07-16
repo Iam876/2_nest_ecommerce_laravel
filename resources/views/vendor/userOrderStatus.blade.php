@@ -1,4 +1,7 @@
 @extends('vendor.vendorMasterDashboard')
+@section('title')
+    Vendor | User Order Status
+@endsection
     
     @section('main-content')
 	

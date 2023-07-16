@@ -1,4 +1,7 @@
 @extends('frontend.frontendMaster')
+@section('title')
+HOME | Nest Ecommerce
+@endsection
     <!--End header-->
     @section('main-section')
     <main class="main">

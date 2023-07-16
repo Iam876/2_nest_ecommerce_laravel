@@ -1,4 +1,7 @@
 @extends('vendor.vendorMasterDashboard')
+@section('title')
+    Vendor | All Product
+@endsection
     
     @section('main-content')
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

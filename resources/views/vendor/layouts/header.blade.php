@@ -26,7 +26,7 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 
-	<title>Admin - Dashboard</title>
+	<title>@yield('title')</title>
 </head>
 
 <body>

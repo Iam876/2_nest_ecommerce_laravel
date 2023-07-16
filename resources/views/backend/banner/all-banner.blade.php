@@ -1,4 +1,7 @@
 @extends('admin.adminMasterDashboard')
+@section('title')
+    Admin | All Banner
+@endsection
     
     @section('main-content')
 	

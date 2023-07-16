@@ -17,12 +17,16 @@ use App\Http\Controllers\Backend\CouponController;
 use App\Http\Controllers\Backend\shippingController;
 use App\Http\Controllers\Backend\ProductOrderManagement;
 use App\Http\Controllers\Backend\CancelReturnProductController;
+use App\Http\Controllers\Backend\OrderReporsManageController;
+use App\Http\Controllers\Backend\UserStatusController;
+use App\Http\Controllers\Backend\BlogController;
 
 
 use App\Http\Controllers\Frontend\ProductDetails;
 use App\Http\Controllers\Frontend\VendorDetailsController;
 use App\Http\Controllers\Frontend\VendorListGridController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\BlogDetailsListController;
 use App\Http\Controllers\Frontend\Shipping\ShippingProductController;
 use App\Http\Controllers\Frontend\User\WishlistController;
 use App\Http\Controllers\Frontend\User\CompareProductController;
@@ -227,6 +231,46 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/pending/return/confirm/order/{order_id}', 'ConfirmReturnOrder');
         Route::get('/delete/returned/{order_id}', 'ReturnDeleteOrder')->name('delete.returned.order');
     });
+    Route::controller(OrderReporsManageController::class)->group(function () {
+        // User Order Reports
+        Route::get('/user/order/search/', 'UserOrderShow')->name('user.order.search');
+        Route::get('/search/order/Bydates/', 'SearchOrderDates')->name('search.order.byDates');
+        Route::get('/user/order/info/search/{search}', 'UserOrderInfo');
+
+        // user order using date
+        Route::get('/user/order/info/fulldate/{fulldate}', 'UserOrderFullDate');
+        Route::get('/user/order/info/month/{month}', 'UserOrderMonthDate');
+        Route::get('/user/order/info/year/{year}', 'UserOrderYearDate');
+    });
+    Route::controller(UserStatusController::class)->group(function () {
+        // User Order Reports
+        Route::get('/all/normal/users/', 'NormalUsersStatus')->name('all.normal.users');
+        // Route::get('/all/users/status', 'UsersStatus');
+        Route::get('/all/vendors/', 'VendorStatus')->name('all.vendors');
+    });
+    Route::controller(BlogController::class)->group(function () {
+        // Blog category
+        Route::get('/all/blog/category/', 'BlogCategory')->name('blog.category');
+        Route::post('/add_category/blog/', 'AddBlogCategory');
+        Route::get('/show_category/blog/', 'ShowBlogCategory');
+        Route::post('/inactive_category/blog/{id}', 'InactiveBlogCategory');
+        Route::post('/active_category/blog/{id}', 'ActiveBlogCategory');
+        Route::get('/delete_category/blog/{id}', 'DeleteBlogCategory');
+        Route::get('/edit_category/blog/{id}', 'EditBlogCategory');
+        Route::post('/update_category/blog/{id}', 'UpdateBlogCategory');
+
+
+
+        // Blog post
+        Route::get('/all/blog/post', 'BlogPosts')->name('blog.post');
+        Route::get('/add/blog/post', 'AddBlogPosts')->name('add.blog.post');
+        Route::post('/store/blog/post', 'StoreBlogPosts')->name('store_blogs');
+        Route::get('/active/blog/post/{id}', 'ActiveBlogPosts')->name('active.post');
+        Route::get('/inactive/blog/post/{id}', 'InactiveBlogPosts')->name('inactive.post');
+        Route::get('/delete/blog/post/{id}', 'DeleteBlogPosts')->name('delete.post');
+        Route::get('/edit/blog/post/{id}', 'EditeBlogPosts')->name('edit.post');
+        Route::post('update/store/blog/post/{id}', 'UpdateStoreBlogPosts')->name('update_store_blogs');
+    });
 });
 
 // Admin + Vendor + User + Register part
@@ -375,6 +419,10 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('user/cancel&Return/order/page', 'CancelReturn')->name('user.cancel&return.order.page');
         Route::post('/cancel/order/{order_id}', 'cancelOrder')->name('cancel.order');
         Route::post('/return/order/{order_id}', 'returnOrder')->name('return.order');
+    });
+    Route::controller(BlogDetailsListController::class)->group(function () {
+        Route::get('/blog/page/show/', 'BlogPageShow')->name('blog.page.show');
+        Route::get('blog/details/{id}/{slug}', 'DetailsBlogPage');
     });
 });
 

@@ -1,4 +1,7 @@
 @extends('frontend.frontendMaster')
+@section('title')
+{{$subcategories->category->category_name}} Category
+@endsection
     <!--End header-->
     @section('main-section')
 <main class="main" style="transform: none;">

@@ -1,5 +1,8 @@
     <!--End header-->
     @extends('dashboardMaster')
+    @section('title')
+         Dashborad | Change Password
+@endsection
     <!--End header-->
     @section('dashboard')
     <main class="main pages">

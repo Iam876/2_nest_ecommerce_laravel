@@ -109,7 +109,7 @@
                         <a href="{{route('product_compare')}}"><span class="lable">Compare</span></a>
                     </div>
                     <div class="header-action-icon-2">
-                        <a href=href="{{route('shop_wishlist')}}">
+                        <a href="{{route('shop_wishlist')}}">
                             <img class="svgInject" alt="Nest" src="{{asset('frontend')}}/assets/imgs/theme/icons/icon-heart.svg" />
                             <span class="pro-count blue" id="wishCount">0</span>
                         </a>
@@ -138,26 +138,26 @@
                     </div>
                     <div class="header-action-icon-2">
                         @auth
-                        <a href="page-account.html">
+                        <a href="{{Route('user.dashboard')}}">
                             <img class="svgInject" alt="Nest" src="{{asset('frontend')}}/assets/imgs/theme/icons/icon-user.svg" />
                         </a>
-                        <a href="page-account.html"><span class="lable ml-0">Account</span></a>
+                        <a href="{{Route('user.dashboard')}}"><span class="lable ml-0">Account</span></a>
                         <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
                             <ul>
                                 <li>
-                                    <a href="page-account.html"><i class="fi fi-rs-user mr-10"></i>My Account</a>
+                                    <a href="{{Route('user.dashboard')}}"><i class="fi fi-rs-user mr-10"></i>My Account</a>
                                 </li>
                                 <li>
-                                    <a href="page-account.html"><i class="fi fi-rs-location-alt mr-10"></i>Order Tracking</a>
+                                    <a href="{{Route('user.trackOrder.page')}}"><i class="fi fi-rs-location-alt mr-10"></i>Order Tracking</a>
                                 </li>
                                 <li>
-                                    <a href="page-account.html"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>
+                                    <a href="#"><i class="fi fi-rs-label mr-10"></i>My Voucher</a>
                                 </li>
                                 <li>
                                     <a href="{{route('shop_wishlist')}}"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a>
                                 </li>
                                 <li>
-                                    <a href="page-account.html"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a>
+                                    <a href="{{Route('user.dashboard')}}"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a>
                                 </li>
                                 <li>
                                     <a href="{{Route('user.logout')}}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a>
@@ -199,7 +199,7 @@
                         <ul>
 
                             @php
-                            $categories = App\Models\Category\Category::orderBy('category_name','DESC')->where('status','active')->withCount('products')->limit(5)->get();
+                            $categories = App\Models\Category\Category::orderBy('category_name','DESC')->where('status','active')->withCount('products')->limit(4)->get();
                             @endphp
                             @foreach($categories->slice(0) as $category)
                             <li>
@@ -257,69 +257,9 @@
                     </ul>
                 </li>
                 @endforeach
-                        <!-- Mega Menu -->
-                        <!-- <li class="position-static">
-                            <a href="#">Mega menu <i class="fi-rs-angle-down"></i></a>
-                            <ul class="mega-menu">
-                                <li class="sub-mega-menu sub-mega-menu-width-22">
-                                    <a class="menu-title" href="#">Fruit & Vegetables</a>
-                                    <ul>
-                                        <li><a href="shop-product-right.html">Meat & Poultry</a></li>
-                                        <li><a href="shop-product-right.html">Fresh Vegetables</a></li>
-                                        <li><a href="shop-product-right.html">Herbs & Seasonings</a></li>
-                                        <li><a href="shop-product-right.html">Cuts & Sprouts</a></li>
-                                        <li><a href="shop-product-right.html">Exotic Fruits & Veggies</a></li>
-                                        <li><a href="shop-product-right.html">Packaged Produce</a></li>
-                                    </ul>
-                                </li>
-                                <li class="sub-mega-menu sub-mega-menu-width-22">
-                                    <a class="menu-title" href="#">Breakfast & Dairy</a>
-                                    <ul>
-                                        <li><a href="shop-product-right.html">Milk & Flavoured Milk</a></li>
-                                        <li><a href="shop-product-right.html">Butter and Margarine</a></li>
-                                        <li><a href="shop-product-right.html">Eggs Substitutes</a></li>
-                                        <li><a href="shop-product-right.html">Marmalades</a></li>
-                                        <li><a href="shop-product-right.html">Sour Cream</a></li>
-                                        <li><a href="shop-product-right.html">Cheese</a></li>
-                                    </ul>
-                                </li>
-                                <li class="sub-mega-menu sub-mega-menu-width-22">
-                                    <a class="menu-title" href="#">Meat & Seafood</a>
-                                    <ul>
-                                        <li><a href="shop-product-right.html">Breakfast Sausage</a></li>
-                                        <li><a href="shop-product-right.html">Dinner Sausage</a></li>
-                                        <li><a href="shop-product-right.html">Chicken</a></li>
-                                        <li><a href="shop-product-right.html">Sliced Deli Meat</a></li>
-                                        <li><a href="shop-product-right.html">Wild Caught Fillets</a></li>
-                                        <li><a href="shop-product-right.html">Crab and Shellfish</a></li>
-                                    </ul>
-                                </li>
-                                <li class="sub-mega-menu sub-mega-menu-width-34">
-                                    <div class="menu-banner-wrap">
-                                        <a href="shop-product-right.html"><img src="{{asset('frontend')}}/assets/imgs/banner/banner-menu.png" alt="Nest" /></a>
-                                        <div class="menu-banner-content">
-                                            <h4>Hot deals</h4>
-                                            <h3>
-                                                Don't miss<br />
-                                                Trending
-                                            </h3>
-                                            <div class="menu-banner-price">
-                                                <span class="new-price text-success">Save to 50%</span>
-                                            </div>
-                                            <div class="menu-banner-btn">
-                                                <a href="shop-product-right.html">Shop now</a>
-                                            </div>
-                                        </div>
-                                        <div class="menu-banner-discount">
-                                            <h3>
-                                                <span>25%</span>
-                                                off
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li> -->
+                        <li>
+                            <a href="{{Route('blog.page.show')}}">Blog</a>
+                        </li>
                         <li>
                             <a href="page-contact.html">Contact</a>
                         </li>

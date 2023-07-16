@@ -1,4 +1,7 @@
 @extends('frontend.frontendMaster')
+@section('title')
+Vendor List Grid
+@endsection
     <!--End header-->
     @section('main-section')
 <main class="main pages mb-80">

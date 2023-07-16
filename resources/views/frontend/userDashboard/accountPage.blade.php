@@ -1,5 +1,8 @@
     <!--End header-->
     @extends('dashboardMaster')
+    @section('title')
+    Dashborad | Account
+    @endsection
     <!--End header-->
     @section('dashboard')
     <main class="main pages">

@@ -1,4 +1,7 @@
 @extends('frontend.frontendMaster')
+@section('title')
+Product Details Page
+@endsection
     <!--End header-->
     @section('main-section')
     <main class="main">
@@ -169,38 +172,6 @@
                                     <div class="tab-content shop_info_tab entry-main-content">
                                         <div class="tab-pane fade show active" id="Description">
                                             <div class="">{!! $products->long_descp !!}</div>
-                                            {{-- <div class="">
-                                                <p>Uninhibited carnally hired played in whimpered dear gorilla koala depending and much yikes off far quetzal goodness and from for grimaced goodness unaccountably and meadowlark near unblushingly crucial scallop tightly neurotic hungrily some and dear furiously this apart.</p>
-                                                <p>Spluttered narrowly yikes left moth in yikes bowed this that grizzly much hello on spoon-fed that alas rethought much decently richly and wow against the frequent fluidly at formidable acceptably flapped besides and much circa far over the bucolically hey precarious goldfinch mastodon goodness gnashed a jellyfish and one however because.</p>
-                                                <ul class="product-more-infor mt-30">
-                                                    <li><span>Type Of Packing</span> Bottle</li>
-                                                    <li><span>Color</span> Green, Pink, Powder Blue, Purple</li>
-                                                    <li><span>Quantity Per Case</span> 100ml</li>
-                                                    <li><span>Ethyl Alcohol</span> 70%</li>
-                                                    <li><span>Piece In One</span> Carton</li>
-                                                </ul>
-                                                <hr class="wp-block-separator is-style-dots" />
-                                                <p>Laconic overheard dear woodchuck wow this outrageously taut beaver hey hello far meadowlark imitatively egregiously hugged that yikes minimally unanimous pouted flirtatiously as beaver beheld above forward energetic across this jeepers beneficently cockily less a the raucously that magic upheld far so the this where crud then below after jeez enchanting drunkenly more much wow callously irrespective limpet.</p>
-                                                <h4 class="mt-30">Packaging & Delivery</h4>
-                                                <hr class="wp-block-separator is-style-wide" />
-                                                <p>Less lion goodness that euphemistically robin expeditiously bluebird smugly scratched far while thus cackled sheepishly rigid after due one assenting regarding censorious while occasional or this more crane went more as this less much amid overhung anathematic because much held one exuberantly sheep goodness so where rat wry well concomitantly.</p>
-                                                <p>Scallop or far crud plain remarkably far by thus far iguana lewd precociously and and less rattlesnake contrary caustic wow this near alas and next and pled the yikes articulate about as less cackled dalmatian in much less well jeering for the thanks blindly sentimental whimpered less across objectively fanciful grimaced wildly some wow and rose jeepers outgrew lugubrious luridly irrationally attractively dachshund.</p>
-                                                <h4 class="mt-30">Suggested Use</h4>
-                                                <ul class="product-more-infor mt-30">
-                                                    <li>Refrigeration not necessary.</li>
-                                                    <li>Stir before serving</li>
-                                                </ul>
-                                                <h4 class="mt-30">Other Ingredients</h4>
-                                                <ul class="product-more-infor mt-30">
-                                                    <li>Organic raw pecans, organic raw cashews.</li>
-                                                    <li>This butter was produced using a LTG (Low Temperature Grinding) process</li>
-                                                    <li>Made in machinery that processes tree nuts but does not process peanuts, gluten, dairy or soy</li>
-                                                </ul>
-                                                <h4 class="mt-30">Warnings</h4>
-                                                <ul class="product-more-infor mt-30">
-                                                    <li>Oil separation occurs naturally. May contain pieces of shell.</li>
-                                                </ul>
-                                            </div> --}}
                                         </div>
                                         <div class="tab-pane fade" id="Additional-info">
                                             <table class="font-md">
@@ -372,25 +343,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="single-comment justify-content-between d-flex">
-                                                                <div class="user justify-content-between d-flex">
-                                                                    <div class="thumb text-center">
-                                                                        <img src="{{asset('frontend')}}/assets/imgs/blog/author-4.png" alt="" />
-                                                                        <a href="#" class="font-heading text-brand">Gemma</a>
-                                                                    </div>
-                                                                    <div class="desc">
-                                                                        <div class="d-flex justify-content-between mb-10">
-                                                                            <div class="d-flex align-items-center">
-                                                                                <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
-                                                                            </div>
-                                                                            <div class="product-rate d-inline-block">
-                                                                                <div class="product-rating" style="width: 80%"></div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
@@ -433,6 +385,19 @@
                                                     <div class="col-lg-8 col-md-12">
                                                         <form class="form-contact comment_form" action="#" id="commentForm">
                                                             <div class="row">
+                                                                <div class="rate w-25">
+                                                                    <input type="radio" id="star5" name="rate" value="5" />
+                                                                    <label for="star5" class="star" title="text">5 stars</label>
+                                                                    <input type="radio" id="star4" name="rate" value="4" />
+                                                                    <label for="star4" class="star" title="text">4 stars</label>
+                                                                    <input type="radio" id="star3" name="rate" value="3" />
+                                                                    <label for="star3" class="star" title="text">3 stars</label>
+                                                                    <input type="radio" id="star2" name="rate" value="2" />
+                                                                    <label for="star2" class="star" title="text">2 stars</label>
+                                                                    <input type="radio" id="star1" name="rate" value="1" />
+                                                                    <label for="star1" class="star" title="text">1 star</label>
+                                                                  </div>
+                                                                  
                                                                 <div class="col-12">
                                                                     <div class="form-group">
                                                                         <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
@@ -525,4 +490,18 @@
                 </div>
             </div>
     </main>
+    <script>
+const labels = document.querySelectorAll('.star');
+
+labels.forEach(label => {
+  label.addEventListener('click', (event) => {
+    event.preventDefault();
+    const inputId = label.getAttribute('for');
+    const input = document.getElementById(inputId);
+    if (input) {
+      input.checked = true; // Select the corresponding radio button
+    }
+  });
+});
+    </script>
     @endsection
