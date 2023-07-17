@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category\Category;
@@ -10,6 +11,7 @@ use App\Models\Subcategory\Subcategory;
 use App\Models\Multiimage\MultiImage;
 use App\Models\Brand\Brand;
 use App\Models\Product\Product;
+use App\Models\Review\ReviewProducts;
 
 class ProductDetails extends Controller
 {
@@ -50,7 +52,22 @@ class ProductDetails extends Controller
 
         $color = $products->product_color;
         $product_color = explode(',', $color);
-        return view('frontend.productDetailsPage', compact('products', 'product_size', 'product_tags', 'product_color', 'product_multiimage', 'related_products'));
+
+        $reviews = ReviewProducts::where('status', 1)->with('products', 'user', 'vendor')->latest()->get();
+
+        $ratingsCount = $reviews->groupBy('rating')
+            ->map(function ($group) {
+                return $group->count();
+            });
+
+        $totalRatings = $reviews->count();
+        $ratingsPercentage = $ratingsCount->map(function ($count) use ($totalRatings) {
+            return ceil(($count / $totalRatings) * 100);
+        });
+
+        $averageRating = ceil($reviews->avg('rating'));
+
+        return view('frontend.productDetailsPage', compact('products', 'product_size', 'product_tags', 'product_color', 'product_multiimage', 'related_products', 'reviews', 'averageRating', 'ratingsCount', 'ratingsPercentage'));
     }
 
     public function CategoryProduct($id, $slug)

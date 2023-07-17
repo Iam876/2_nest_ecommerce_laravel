@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models\Rating;
+namespace App\Models\SiteSetting;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ratingProduct extends Model
+class siteSetting extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }

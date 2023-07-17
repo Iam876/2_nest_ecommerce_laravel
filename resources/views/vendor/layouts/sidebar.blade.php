@@ -51,6 +51,17 @@
 						</li>
 					</ul>
 				</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-coupon"></i>
+						</div>
+						<div class="menu-title">Product Review</div>
+					</a>
+					<ul>
+						<li> <a href="{{Route('all.products.review')}}"><i class="bx bx-right-arrow-alt"></i>All Review</a>
+						</li>
+					</ul>
+				</li>
 			@else
 			@endif
 

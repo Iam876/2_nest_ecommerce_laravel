@@ -1,3 +1,6 @@
+@php
+    $settings = App\Models\SiteSetting\SiteSetting::find(1);
+@endphp
 <header class="header-area header-style-1 header-height-2">
 <div class="mobile-promotion">
 <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
@@ -45,7 +48,7 @@
                         </ul>
                     </li>
 
-                        <li>Need help? Call Us: <strong class="text-brand"> + 1800 900</strong></li>
+                        <li>Need help? Call Us : <strong class="text-brand"> {{$settings->phone_one}}</strong></li>
                     
                 </ul>
             </div>
@@ -57,7 +60,7 @@
 <div class="container">
     <div class="header-wrap">
         <div class="logo logo-width-1">
-            <a href="{{url('/')}}"><img src="{{asset('frontend')}}/assets/imgs/theme/logo.svg" alt="logo" /></a>
+            <a href="{{url('/')}}"><img src="{{asset($settings->logo)}}" alt="logo" /></a>
         </div>
         <div class="header-right">
             <div class="search-style-2">
@@ -271,7 +274,7 @@
 
         <div class="hotline d-none d-lg-flex">
             <img src="{{asset('frontend')}}/assets/imgs/theme/icons/icon-headphone.svg" alt="hotline" />
-            <p>1900 - 888<span>24/7 Support Center</span></p>
+            <p>{{$settings->support_phone}}<span>24/7 Support Center</span></p>
         </div>
         <div class="header-action-icon-2 d-block d-lg-none">
             <div class="burger-icon burger-icon-white">

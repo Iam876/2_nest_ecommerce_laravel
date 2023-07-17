@@ -20,6 +20,7 @@ use App\Http\Controllers\Backend\CancelReturnProductController;
 use App\Http\Controllers\Backend\OrderReporsManageController;
 use App\Http\Controllers\Backend\UserStatusController;
 use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\SiteSettingsController;
 
 
 use App\Http\Controllers\Frontend\ProductDetails;
@@ -32,6 +33,7 @@ use App\Http\Controllers\Frontend\User\WishlistController;
 use App\Http\Controllers\Frontend\User\CompareProductController;
 use App\Http\Controllers\Frontend\User\StripeController;
 use App\Http\Controllers\Frontend\User\AllUserController;
+use App\Http\Controllers\Frontend\ReviewController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 
@@ -271,6 +273,20 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/edit/blog/post/{id}', 'EditeBlogPosts')->name('edit.post');
         Route::post('update/store/blog/post/{id}', 'UpdateStoreBlogPosts')->name('update_store_blogs');
     });
+    Route::controller(ReviewController::class)->group(function () {
+        Route::get('/active/review/product/', 'ActiveReviewProduct')->name('active.review.products');
+        Route::get('/inactive/review/product/', 'InactiveReviewProduct')->name('inactive.review.products');
+        Route::get('/active/product/{id}', 'ActiveProduct')->name('active.product');
+        Route::get('/inactive/product/{id}', 'InactiveProduct')->name('inactive.product');
+    });
+    Route::controller(SiteSettingsController::class)->group(function () {
+        Route::get('/company/site/settings/', 'CompanySiteSettings')->name('company.site.settings');
+        Route::post('/company/update/', 'CompanyUpdate')->name('company.update');
+        Route::get('/admin/site/settings/', 'AdminSiteSettings')->name('admin.site.settings');
+        Route::get('/vendor/site/settings/', 'VendorSiteSettings')->name('vendor.site.settings');
+        Route::get('/seo/settings/', 'seoSettings')->name('seo.settings');
+        Route::post('/seo/settings/update/', 'seoSettingsUpdate')->name('seo.settings.update');
+    });
 });
 
 // Admin + Vendor + User + Register part
@@ -330,6 +346,9 @@ Route::middleware(['auth', 'role:vendor'])->group(function () {
         Route::get('/vendor/product/orders/', 'VendorOrder')->name('all.vendorOrders');
         Route::get('/vendor/user/orders/info/show/{id}', 'VendorUserOrderInfo')->name('vendor.userOrderInfo');
     });
+    Route::controller(ReviewController::class)->group(function () {
+        Route::get('/all/product/review/', 'ProductReviewVendor')->name('all.products.review');
+    });
 });
 
 // User Dashboard
@@ -347,12 +366,12 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     });
 
     // Product Details Page
-    Route::controller(ProductDetails::class)->group(function () {
-        Route::get('product/details/{id}/{slug}', 'ProductDetails');
-        Route::get('category/product/{id}/{slug}', 'CategoryProduct');
-        Route::get('subcategory/product/{id}/{slug}', 'SubCategoryProduct');
-        Route::get('/product/modal/view/{id}', 'ProductModalView');
-    });
+    // Route::controller(ProductDetails::class)->group(function () {
+    //     Route::get('product/details/{id}/{slug}', 'ProductDetails');
+    //     Route::get('category/product/{id}/{slug}', 'CategoryProduct');
+    //     Route::get('subcategory/product/{id}/{slug}', 'SubCategoryProduct');
+    //     Route::get('/product/modal/view/{id}', 'ProductModalView');
+    // });
 
     // WishList Part
     Route::controller(WishlistController::class)->group(function () {
@@ -424,8 +443,17 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/blog/page/show/', 'BlogPageShow')->name('blog.page.show');
         Route::get('blog/details/{id}/{slug}', 'DetailsBlogPage');
     });
+    Route::controller(ReviewController::class)->group(function () {
+        Route::post('/store/product/review/', 'StoreProductReview')->name('store.product.review');
+    });
 });
 
+Route::controller(ProductDetails::class)->group(function () {
+    Route::get('product/details/{id}/{slug}', 'ProductDetails');
+    Route::get('category/product/{id}/{slug}', 'CategoryProduct');
+    Route::get('subcategory/product/{id}/{slug}', 'SubCategoryProduct');
+    Route::get('/product/modal/view/{id}', 'ProductModalView');
+});
 
 Route::get('/vendor/details/{id}', [VendorDetailsController::class, 'VendorDetails'])->name('vendorDetailsInfo');
 Route::get('vendor/list/', [VendorListGridController::class, 'VendorList'])->name('vendor_list');

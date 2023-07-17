@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rating_products', function (Blueprint $table) {
+        Schema::create('seo_settings', function (Blueprint $table) {
             $table->id();
+            $table->string('meta_title')->nullable();
+            $table->string('meta_author')->nullable();
+            $table->string('meta_keyword')->nullable();
+            $table->text('meta_description')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rating_products');
+        Schema::dropIfExists('seo_settings');
     }
 };

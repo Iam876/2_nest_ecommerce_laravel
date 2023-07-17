@@ -22,12 +22,13 @@
 <script src="{{asset('adminBackend')}}/assets/plugins/input-tags/js/tagsinput.js"></script>
 <script src="https://cdn.tiny.cloud/1/4j2n91w9r6y1yn45hy2mqe2lx5ocgo8iwdn6j4efn5h6j6ko/tinymce/5/tinymce.min.js" referrerpolicy="origin">
 	</script>
-	<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/legacy.js"></script>
-	<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/picker.js"></script>
-	<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/picker.time.js"></script>
-	<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/picker.date.js"></script>
-	<script src="{{asset('adminBackend')}}/assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js"></script>
-	<script src="{{asset('adminBackend')}}/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js"></script>
+<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/legacy.js"></script>
+<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/picker.js"></script>
+<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/picker.time.js"></script>
+<script src="{{asset('adminBackend')}}/assets/plugins/datetimepicker/js/picker.date.js"></script>
+<script src="{{asset('adminBackend')}}/assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js"></script>
+<script src="{{asset('adminBackend')}}/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js"></script>
+<script src="{{asset('adminBackend')}}/assets/js/widgets.js"></script>
 <script>
 		tinymce.init({
 		  selector: '#Long_Description'

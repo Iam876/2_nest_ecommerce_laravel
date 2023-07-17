@@ -304,27 +304,58 @@ Product Details Page
                                                 <div class="row">
                                                     <div class="col-lg-8">
                                                         <h4 class="mb-30">Customer questions & answers</h4>
-                                                        <div class="comment-list">
+                                                        <div id="commentContainer" class="comment-list">
+                                                            @foreach ($reviews as $review)
                                                             <div class="single-comment justify-content-between d-flex mb-30">
                                                                 <div class="user justify-content-between d-flex">
                                                                     <div class="thumb text-center">
-                                                                        <img src="{{asset('frontend')}}/assets/imgs/blog/author-2.png" alt="" />
-                                                                        <a href="#" class="font-heading text-brand">Sienna</a>
+                                                                        <?php 
+                                                                                $imagePaths = [
+                                                                                '/upload/admin-images/',
+                                                                                '/upload/user-images/',
+                                                                                '/upload/vendor-images/',
+                                                                            ];
+                                                                            $imageUrl = null;
+                                                                            foreach ($imagePaths as $imagePath) {
+                                                                                $imageFullPath = public_path($imagePath . $review->user->photo);
+                                                                                if (file_exists($imageFullPath)) {
+                                                                                    $imageUrl = asset($imagePath . $review->user->photo);
+                                                                                    break;
+                                                                                }
+                                                                            }    
+                                                                            ?>
+                                                                        <img src="{{asset($imageUrl)}}" alt="" />
+                                                                        <span class="font-heading text-brand">
+                                                                            {{$review->user->username}}
+                                                                        </span>
                                                                     </div>
                                                                     <div class="desc">
                                                                         <div class="d-flex justify-content-between mb-10">
                                                                             <div class="d-flex align-items-center">
-                                                                                <span class="font-xs text-muted">December 4, 2022 at 3:12 pm </span>
+                                                                                <span class="font-xs text-muted"> {{$review->created_at}} </span>
                                                                             </div>
                                                                             <div class="product-rate d-inline-block">
+                                                                                @if ($review->rating == 1 && $review->rating!==5)
+                                                                                <div class="product-rating" style="width: 20%"></div>
+                                                                                @elseif($review->rating == 2 && $review->rating!==5)
+                                                                                <div class="product-rating" style="width: 40%"></div>
+                                                                                @elseif($review->rating == 3 && $review->rating!==5)
+                                                                                <div class="product-rating" style="width: 60%"></div>
+                                                                                @elseif($review->rating == 4 && $review->rating!==5)
+                                                                                <div class="product-rating" style="width: 80%"></div>
+                                                                                @elseif($review->rating == 5 && $review->rating<6)
                                                                                 <div class="product-rating" style="width: 100%"></div>
+                                                                                    
+                                                                                @endif
                                                                             </div>
                                                                         </div>
-                                                                        <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
+                                                                        <p class="mb-10">{{$review->comment}}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="single-comment justify-content-between d-flex mb-30 ml-30">
+                                                            @endforeach
+                                                            {{-- <button id="loadMoreBtn" class="btn btn-success">Load More</button> --}}
+                                                            {{-- <div class="single-comment justify-content-between d-flex mb-30 ml-30">
                                                                 <div class="user justify-content-between d-flex">
                                                                     <div class="thumb text-center">
                                                                         <img src="{{asset('frontend')}}/assets/imgs/blog/author-3.png" alt="" />
@@ -342,37 +373,52 @@ Product Details Page
                                                                         <p class="mb-10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, suscipit exercitationem accusantium obcaecati quos voluptate nesciunt facilis itaque modi commodi dignissimos sequi repudiandae minus ab deleniti totam officia id incidunt? <a href="#" class="reply">Reply</a></p>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <h4 class="mb-30">Customer reviews</h4>
                                                         <div class="d-flex mb-30">
                                                             <div class="product-rate d-inline-block mr-15">
-                                                                <div class="product-rating" style="width: 90%"></div>
+                                                                @if ($averageRating == 1 && $averageRating!==5)
+                                                                <div class="product-rating" style="width: 20%"></div>
+                                                                @elseif($averageRating == 2 && $averageRating!==5)
+                                                                <div class="product-rating" style="width: 40%"></div>
+                                                                @elseif($averageRating == 3 && $averageRating!==5)
+                                                                <div class="product-rating" style="width: 60%"></div>
+                                                                @elseif($averageRating == 4 && $averageRating!==5)
+                                                                <div class="product-rating" style="width: 80%"></div>
+                                                                @elseif($averageRating == 5 && $averageRating<6)
+                                                                <div class="product-rating" style="width: 100%"></div>
+                                                                @endif
                                                             </div>
-                                                            <h6>4.8 out of 5</h6>
+                                                            @if ($averageRating<5)
+                                                            <h6>{{$averageRating}} Out of 5</h6>
+                                                            @else
+                                                            <h6>{{$averageRating}}</h6>
+                                                            @endif
                                                         </div>
                                                         <div class="progress">
                                                             <span>5 star</span>
-                                                            <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+                                                            <div class="progress-bar" role="progressbar" style="width: {{ $ratingsPercentage->get(5, 0) }}%" aria-valuenow="{{ $ratingsPercentage->get(5, 0) }}" aria-valuemin="0" aria-valuemax="100">{{ $ratingsPercentage->get(5, 0) }}%</div>
                                                         </div>
                                                         <div class="progress">
                                                             <span>4 star</span>
-                                                            <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                                                            <div class="progress-bar" role="progressbar" style="width: {{ $ratingsPercentage->get(4, 0) }}%" aria-valuenow="{{ $ratingsPercentage->get(4, 0) }}" aria-valuemin="0" aria-valuemax="100">{{ $ratingsPercentage->get(4, 0) }}%</div>
                                                         </div>
                                                         <div class="progress">
                                                             <span>3 star</span>
-                                                            <div class="progress-bar" role="progressbar" style="width: 45%" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>
+                                                            <div class="progress-bar" role="progressbar" style="width: {{ $ratingsPercentage->get(3, 0) }}%" aria-valuenow="{{ $ratingsPercentage->get(3, 0) }}" aria-valuemin="0" aria-valuemax="100">{{ $ratingsPercentage->get(3, 0) }}%</div>
                                                         </div>
                                                         <div class="progress">
                                                             <span>2 star</span>
-                                                            <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>
+                                                            <div class="progress-bar" role="progressbar" style="width: {{ $ratingsPercentage->get(2, 0) }}%" aria-valuenow="{{ $ratingsPercentage->get(2, 0) }}" aria-valuemin="0" aria-valuemax="100">{{ $ratingsPercentage->get(2, 0) }}%</div>
                                                         </div>
                                                         <div class="progress mb-30">
                                                             <span>1 star</span>
-                                                            <div class="progress-bar" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>
+                                                            <div class="progress-bar" role="progressbar" style="width: {{ $ratingsPercentage->get(1, 0) }}%" aria-valuenow="{{ $ratingsPercentage->get(1, 0) }}" aria-valuemin="0" aria-valuemax="100">{{ $ratingsPercentage->get(1, 0) }}%</div>
                                                         </div>
+                                                        
                                                         <a href="#" class="font-xs text-muted">How are ratings calculated?</a>
                                                     </div>
                                                 </div>
@@ -380,10 +426,13 @@ Product Details Page
                                             <!--comment form-->
                                             <div class="comment-form">
                                                 <h4 class="mb-15">Add a review</h4>
-                                                <div class="product-rate d-inline-block mb-30"></div>
                                                 <div class="row">
                                                     <div class="col-lg-8 col-md-12">
-                                                        <form class="form-contact comment_form" action="#" id="commentForm">
+                                                        @guest
+                                                            <p>To add review,Please login first <a href="{{Route('login')}}">Login here</a></p>
+                                                        @else
+                                                        <form class="form-contact comment_form" action="{{Route('store.product.review',['Rvendor' => $products->vendor->id, 'Rproduct' => $products->id])}}" method="POST" id="commentForm">
+                                                            @csrf
                                                             <div class="row">
                                                                 <div class="rate w-25">
                                                                     <input type="radio" id="star5" name="rate" value="5" />
@@ -398,31 +447,22 @@ Product Details Page
                                                                     <label for="star1" class="star" title="text">1 star</label>
                                                                   </div>
                                                                   
-                                                                <div class="col-12">
+                                                                  <div class="col-12">
                                                                     <div class="form-group">
                                                                         <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <span id="alertMaxInput" class="text-danger"></span>
+                                                                            <span id="charctercount">0 / 255 characters</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" name="name" id="name" type="text" placeholder="Name" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" name="email" id="email" type="email" placeholder="Email" />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <div class="form-group">
-                                                                        <input class="form-control" name="website" id="website" type="text" placeholder="Website" />
-                                                                    </div>
-                                                                </div>
+                                                                
                                                             </div>
                                                             <div class="form-group">
                                                                 <button type="submit" class="button button-contactForm">Submit Review</button>
                                                             </div>
                                                         </form>
+                                                        @endguest
                                                     </div>
                                                 </div>
                                             </div>
@@ -490,9 +530,44 @@ Product Details Page
                 </div>
             </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-const labels = document.querySelectorAll('.star');
+$(document).ready(function() {
+    var maxLength = 255; // Maximum character count
+    var textarea = $('#comment');
+    var alertMaxInput = $('#alertMaxInput');
+    var characterCount = $('#charctercount');
 
+    textarea.keyup(function() {
+        var length = $(this).val().length;
+        var remaining = maxLength - length;
+
+        characterCount.text(length + ' / ' + maxLength + ' characters');
+
+        if (remaining < 0) {
+            $(this).val($(this).val().substring(0, maxLength));
+            $(this).removeClass('form-control').addClass('border-danger');
+            alertMaxInput.text('Max input exceeded');
+        } else {
+            $(this).addClass('form-control').removeClass('border-danger');
+            alertMaxInput.text('');
+        }
+    });
+});
+
+// $(document).ready(function() {
+//   var limit = 5;
+//   $("#commentContainer .single-comment").slice(0, limit).show();
+
+//   $(document).on('click', '#loadMoreBtn', function(e) {
+//     limit += 5;
+//     e.preventDefault();
+//     $("#commentContainer .single-comment").slice(0, limit).show();
+//   });
+// });
+
+
+const labels = document.querySelectorAll('.star');
 labels.forEach(label => {
   label.addEventListener('click', (event) => {
     event.preventDefault();

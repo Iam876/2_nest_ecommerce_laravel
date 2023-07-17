@@ -4,8 +4,15 @@
 <head>
     <meta charset="utf-8" />
     <title>@yield('title')</title>
+    @php
+        $seo = App\Models\Seo\SeoSettings::find(1);
+    @endphp
+    
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
+    <meta name="title" content="{{$seo->meta_title}}" />
+    <meta name="author" content="{{$seo->meta_author}}" />
+    <meta name="keyword" content="{{$seo->meta_keyword}}" />
+    <meta name="description" content="{{$seo->meta_description}}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:title" content="" />
     <meta property="og:type" content="" />

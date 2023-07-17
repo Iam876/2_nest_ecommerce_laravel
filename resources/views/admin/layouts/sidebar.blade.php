@@ -197,7 +197,6 @@
 					</a>
 				</li>
 				<li>
-					
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class="bx bx-coupon"></i>
 						</div>
@@ -211,6 +210,38 @@
 						<li> <a href="#"><i class="bx bx-right-arrow-alt"></i>Pending Blog</a>
 						</li>
 
+					</ul>
+				</li>
+				<li class="menu-label">Review Manage</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-coupon"></i>
+						</div>
+						<div class="menu-title">Product Review</div>
+					</a>
+					<ul>
+						<li> <a href="{{Route('active.review.products')}}"><i class="bx bx-right-arrow-alt"></i>Active Review</a>
+						</li>
+						<li> <a href="{{Route('inactive.review.products')}}"><i class="bx bx-right-arrow-alt"></i>Inactive Review</a>
+						</li>
+					</ul>
+				</li>
+				<li class="menu-label">Site Settings</li>
+				<li>
+					<a href="javascript:;" class="has-arrow">
+						<div class="parent-icon"><i class="bx bx-coupon"></i>
+						</div>
+						<div class="menu-title">All Site Settings</div>
+					</a>
+					<ul>
+						<li> <a href="{{Route('company.site.settings')}}"><i class="bx bx-right-arrow-alt"></i>Ecommerce Site Settings</a>
+						</li>
+						<li> <a href="{{Route('admin.site.settings')}}"><i class="bx bx-right-arrow-alt"></i>Admin Settings</a>
+						</li>
+						<li> <a href="{{Route('vendor.site.settings')}}"><i class="bx bx-right-arrow-alt"></i>Vendor Settings</a>
+						</li>
+						<li> <a href="{{Route('seo.settings')}}"><i class="bx bx-right-arrow-alt"></i>Seo Settings</a>
+						</li>
 					</ul>
 				</li>
 			</ul>

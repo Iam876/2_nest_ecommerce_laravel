@@ -30,27 +30,43 @@
 								<thead>
 									<tr>
                                         <th>Sl</th>
-                                        <th>Image </th>
-                                        <th>Product Name </th>
-                                        <th>Price </th>
-                                        <th>QTY </th>
-                                        <th>Discount </th>
-                                        <th>Status </th> 
+                                        <th>Username</th>
+                                        <th>Comment</th>
+                                        <th>Vendor Name </th>
+                                        <th>Product Name</th>
+                                        <th>Rating</th>
+                                        <th>Status</th> 
                                         <th>Action</th> 
 									</tr>
 								</thead>
-								<tbody class="tbodyData">
-									
+								<tbody>
+                                    @foreach ($activeReviewProducts as $key => $activeReview)
+                                        <tr>
+                                            <tr>
+                                                <td>{{$key+1}}</td>
+                                                <td>{{$activeReview->user->username}}</td>
+                                                <td>{{ Str::limit($activeReview->comment, 70) }}</td>
+                                                <td>{{$activeReview->vendor->username}}</td>
+                                                <td>{{$activeReview->products->product_name}}</td>
+                                                <td>{{$activeReview->rating}}</td>
+                                                <td>
+                                                    @if ($activeReview->status==1)
+                                                        <a href="{{Route('inactive.product',$activeReview->id)}}"class="btn btn-success">Active</a>    
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        </tr>
+                                    @endforeach
 								</tbody>
 								<tfoot>
                                     <tr>
                                         <th>Sl</th>
-                                        <th>Image </th>
-                                        <th>Product Name </th>
-                                        <th>Price </th>
-                                        <th>QTY </th>
-                                        <th>Discount </th>
-                                        <th>Status </th> 
+                                        <th>Username</th>
+                                        <th>Comment</th>
+                                        <th>Vendor Name </th>
+                                        <th>Product Name</th>
+                                        <th>Rating</th>
+                                        <th>Status</th> 
                                         <th>Action</th> 
 									</tr>
 								</tfoot>
@@ -60,7 +76,7 @@
 				</div>
 
 				  <!-- To Delete Data -->
-				<div class="modal" tabindex="-1" id="OpenDelete">
+				{{-- <div class="modal" tabindex="-1" id="OpenDelete">
 					<div class="modal-dialog">
 					  <div class="modal-content" id="AddForm myForm">
 						<div class="modal-header text-center d-block">
@@ -78,9 +94,8 @@
 						
 					  </div>
 					</div>
-				  </div>
+				</div> --}}
 				 
 			</div>
     </main>
-	<script src="{{asset('adminBackend')}}/assets/js/ProductAjax.js"></script>
     @endsection

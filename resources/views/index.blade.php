@@ -1,8 +1,8 @@
     <!--End header-->
     @extends('dashboardMaster')
     @section('title')
-Dashboard
-@endsection
+    Dashboard
+    @endsection
     <!--End header-->
     @section('dashboard')
     <main class="main pages">
