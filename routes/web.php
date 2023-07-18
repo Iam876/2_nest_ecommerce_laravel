@@ -429,6 +429,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::get('/user/account/page/', 'UserAccountPage')->name('user.account.page');
         Route::get('/user/order/page/', 'UserOrderPage')->name('user.order.page');
         Route::get('/user/track/order/page/', 'UserTrackOrderPage')->name('user.trackOrder.page');
+        Route::post('/user/track/order/details/', 'UserTrackDetails')->name('user.trackOrder.details');
         Route::get('/user/billingShipping/page/', 'UserBillingShippingPage')->name('user.billing&Shipping.page');
         Route::get('/user/changePassword/page/', 'UserChangePasswordPage')->name('user.changePassword.page');
         Route::get('/user/orderDetails/page/{order_id}', 'UserOrderDetailsPage');
@@ -453,6 +454,10 @@ Route::controller(ProductDetails::class)->group(function () {
     Route::get('category/product/{id}/{slug}', 'CategoryProduct');
     Route::get('subcategory/product/{id}/{slug}', 'SubCategoryProduct');
     Route::get('/product/modal/view/{id}', 'ProductModalView');
+
+    Route::post('/search/product/', 'SearchProduct')->name('search.product');
+    Route::get('/show/search/result', 'showResults')->name('show.results');
+    Route::post('/search-product', 'SearchProductAjax');
 });
 
 Route::get('/vendor/details/{id}', [VendorDetailsController::class, 'VendorDetails'])->name('vendorDetailsInfo');

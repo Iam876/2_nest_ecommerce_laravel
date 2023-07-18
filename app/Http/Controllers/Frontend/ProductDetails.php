@@ -12,6 +12,7 @@ use App\Models\Multiimage\MultiImage;
 use App\Models\Brand\Brand;
 use App\Models\Product\Product;
 use App\Models\Review\ReviewProducts;
+use Illuminate\Support\Facades\Cache;
 
 class ProductDetails extends Controller
 {
@@ -110,5 +111,48 @@ class ProductDetails extends Controller
             'sizes' => $product_size,
             'multiImage' => $product_multiImage
         ]);
+    }
+
+    public function searchProduct(Request $request)
+    {
+        $request->validate(['search' => 'required']);
+
+        $item = $request->search;
+        $categories = Category::orderBy('category_name', 'ASC')->get();
+
+        $products = Cache::remember('search_results_' . $item, 60, function () use ($item) {
+            return Product::where('product_name', 'LIKE', "%$item%")->get();
+        });
+
+        return redirect()->route('show.results', compact('item', 'categories'));
+    }
+
+    public function showResults(Request $request)
+    {
+        $item = $request->item;
+        $categories = $request->categories;
+
+        $products = Cache::get('search_results_' . $item);
+
+        return view('frontend.product_search', compact('products', 'item', 'categories'));
+    }
+    public function SearchProductAjax(Request $request)
+    {
+        try {
+            $request->validate(['search' => "required"]);
+
+            $item = $request->search;
+            $products = Product::where('product_name', 'LIKE', "%$item%")->select('product_name', 'product_slug', 'product_thumbnail', 'selling_price', 'id')->limit(6)->get();
+
+            return response()->json([
+                'status' => 200,
+                'products' => $products,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
 }

@@ -30,6 +30,12 @@ class AllUserController extends Controller
     {
         return view('frontend.userDashboard.trackOrderPage');
     }
+    public function UserTrackDetails(Request $request)
+    {
+        $id = Auth::user()->id;
+        $trackOrder = Order::where('email', $request->billing_email)->where('invoice_no', $request->invoice_no)->where('user_id', $id)->first();
+        return view('frontend.orderTrackDetails', compact('trackOrder'));
+    }
     public function UserBillingShippingPage()
     {
         return view('frontend.userDashboard.billingShippingPage');

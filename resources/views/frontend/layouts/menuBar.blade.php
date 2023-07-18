@@ -1,6 +1,38 @@
 @php
     $settings = App\Models\SiteSetting\SiteSetting::find(1);
 @endphp
+<style>
+            .header-right .panel--search-result {
+            border: 2px solid #BCE3C9;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-top: 0;
+            left: -2px;
+            width: calc(100% + 4px);
+        }
+        .panel--search-result.active {
+            opacity: 1;
+            transform: scaleX(1);
+            visibility: visible;
+        }
+        .panel__footer{
+            border-top: 1px solid #eee;
+            padding: 5px 0px; 
+        }
+        .panel--search-result {
+            background-color: #fff;
+            border: 1px solid #eaeaea;
+            left: 0;
+            opacity: 0;
+            position: absolute;
+            top: 100%;
+            transform: scaleZ(0);
+            transition: all .4s ease;
+            visibility: hidden;
+            width: 100%;
+            z-index: 999;
+        }
+</style>
 <header class="header-area header-style-1 header-height-2">
 <div class="mobile-promotion">
 <span>Grand opening, <strong>up to 15%</strong> off all items. Only <strong>3 days</strong> left</span>
@@ -64,21 +96,30 @@
         </div>
         <div class="header-right">
             <div class="search-style-2">
-                <form action="#">
-                    <select class="select-active">
-                        <option>All Categories</option>
-                        <option>Milks and Dairies</option>
-                        <option>Wines & Alcohol</option>
-                        <option>Clothing & Beauty</option>
-                        <option>Pet Foods & Toy</option>
-                        <option>Fast food</option>
-                        <option>Baking material</option>
-                        <option>Vegetables</option>
-                        <option>Fresh Seafood</option>
-                        <option>Noodles & Rice</option>
-                        <option>Ice cream</option>
-                    </select>
-                    <input type="text" placeholder="Search for items..." />
+                <form action="{{route('search.product')}}" method="POST">
+                    @csrf
+                    <div class="position-relative">
+                        <select class="select-active">
+                            <option>All Categories</option>
+                            <option>Milks and Dairies</option>
+                            <option>Wines & Alcohol</option>
+                            <option>Clothing & Beauty</option>
+                            <option>Pet Foods & Toy</option>
+                            <option>Fast food</option>
+                            <option>Baking material</option>
+                            <option>Vegetables</option>
+                            <option>Fresh Seafood</option>
+                            <option>Noodles & Rice</option>
+                            <option>Ice cream</option>
+                        </select>
+                    </div>
+                        <input id="SearchItems" name="search" placeholder="Search for items..." />
+                    <div class="panel--search-result " id="SearchItemShow">
+                        <div class="panel__footer text-center">
+                            <a href="{{Route('search.product')}}">See all results</a>
+                         </div>
+                    </div>
+                    
                 </form>
             </div>
             <div class="header-action-right">
