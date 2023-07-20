@@ -21,6 +21,7 @@ use App\Http\Controllers\Backend\OrderReporsManageController;
 use App\Http\Controllers\Backend\UserStatusController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\SiteSettingsController;
+use App\Http\Controllers\Backend\RoleController;
 
 
 use App\Http\Controllers\Frontend\ProductDetails;
@@ -48,6 +49,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::post('/admin/profile/store', 'adminProfileStore')->name('admin.profile.store');
         Route::get('/admin/password/change', 'adminPasswordChange')->name('admin.admin_password_change');
         Route::post('/admin/password/update', 'adminPasswordUpdate')->name('admin.admin_password_update');
+
+        // ############# MULTIPLE ADMIN HANDLE ################ //
+        Route::get('/all/admin', 'AllAdmin')->name('all.admin');
+        Route::get('/add/admin', 'AddAdmin')->name('add.admin');
+        Route::post('/admin/user/store', 'AdminUserStore')->name('admin.user.store');
+        Route::get('/edit/admin/role/{id}', 'EditAdminRole')->name('edit.admin.role');
+        Route::post('/admin/user/update/{id}', 'AdminUserUpdate')->name('admin.user.update');
+        Route::get('/delete/admin/role/{id}', 'DeleteAdminRole')->name('delete.admin.role');
     });
 
     // Vendor Portion
@@ -91,9 +100,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         // Category Active
         Route::post('/inactive_category/{id}', 'InactiveCategory');
         // Category Delete
-        Route::get('/delete_category/{id}', 'DeleteCategory');
+        Route::get('/delete_category/{id}', 'DeleteCategory')->name('delete.category');
         // Category Edit & Update
-        Route::get('/edit_category/{id}', 'EditCategory');
+        Route::get('/edit_category/{id}', 'EditCategory')->name('edit.category');
         Route::post('/update_category/{id}', 'UpdateCategory');
     });
 
@@ -286,6 +295,34 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/vendor/site/settings/', 'VendorSiteSettings')->name('vendor.site.settings');
         Route::get('/seo/settings/', 'seoSettings')->name('seo.settings');
         Route::post('/seo/settings/update/', 'seoSettingsUpdate')->name('seo.settings.update');
+    });
+    Route::controller(RoleController::class)->group(function () {
+        /////////////////// All PERMISSIONS ////////////////////
+        Route::get('/all/permission/', 'AllPermissions')->name('all.permission');
+        Route::get('/add/permission/', 'AddPermission')->name('add.permission');
+        Route::post('/store/permission/', 'StorePermission')->name('store.permission');
+
+        Route::get('/edit/permission/{id}', 'EditPermission')->name('edit.permission');
+        Route::post('/update/permission', 'UpdatePermission')->name('update.permission');
+        Route::get('/delete/permission/{id}', 'DeletePermission')->name('delete.permission');
+
+        /////////////////// All Roles ////////////////////
+
+        Route::get('/all/roles', 'AllRoles')->name('all.roles');
+        Route::get('/add/roles', 'AddRoles')->name('add.roles');
+        Route::post('/store/roles', 'StoreRoles')->name('store.roles');
+        Route::get('/edit/roles/{id}', 'EditRoles')->name('edit.roles');
+        Route::post('/update/roles', 'UpdateRoles')->name('update.roles');
+        Route::get('/delete/roles/{id}', 'DeleteRoles')->name('delete.roles');
+
+
+        // Add Permissions into Roles
+        Route::get('/add/roles/permission', 'AddRolesPermission')->name('add.roles.permission');
+        Route::post('/role/permission/store', 'RolePermissionStore')->name('role.permission.store');
+        Route::get('/all/roles/permission', 'AllRolesPermission')->name('all.roles.permission');
+        Route::get('/admin/edit/roles/{id}', 'AdminRolesEdit')->name('admin.edit.roles');
+        Route::post('/admin/roles/update/{id}', 'AdminRolesUpdate')->name('admin.roles.update');
+        Route::get('/admin/delete/roles/{id}', 'AdminRolesDelete')->name('admin.delete.roles');
     });
 });
 
