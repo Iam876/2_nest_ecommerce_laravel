@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Notifications\vendorApproval;
+use App\Notifications\vendorDashboardNotification;
+use App\Notifications\vendorStatusControl;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class vendorController extends Controller
@@ -143,7 +147,7 @@ class vendorController extends Controller
         ]);
 
         // $save_vendor_image = NULL;
-
+        $vendor_user = User::where('role', 'admin')->get();
         if ($request->hasFile('photo')) {
             $image = $request->file('photo');
             $fileName = date('YmHi') . $image->getClientOriginalExtension();
@@ -168,7 +172,7 @@ class vendorController extends Controller
             'message' => 'Registered Successfull | Please Login',
             'alert-type' => 'success'
         );
-
+        Notification::send($vendor_user, new vendorStatusControl($request));
         return redirect()->route('vendor.login')->with($notification);
     }
 
@@ -186,11 +190,15 @@ class vendorController extends Controller
             'status' => 'active'
         ]);
 
+        $vendor_status = User::where('role', 'admin')->get();
+        $vendor_status_dashboard = User::where('role', 'vendor')->get();
+
         $notification = array([
             'message' => 'Vendor Active Successfully',
             'alert-type' => 'success'
         ]);
-
+        Notification::send($vendor_status, new vendorApproval());
+        Notification::send($vendor_status_dashboard, new vendorDashboardNotification());
         return redirect()->route('active.vendor')->with($notification);
     }
 

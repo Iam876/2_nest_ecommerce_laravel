@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderMail;
 use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
+use App\Models\User;
+use App\Notifications\OrderComplete;
 use Carbon\Carbon;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
@@ -83,7 +86,7 @@ class StripeController extends Controller
     // End Email
 
 
-
+    $user = User::where('role', 'admin')->get();
     foreach ($carts as $cart) {
 
       OrderItem::insert([
@@ -109,11 +112,14 @@ class StripeController extends Controller
       'message' => 'Order Place successfully',
       'alert-type' => 'success'
     );
+    Notification::send($user, new OrderComplete($request->name));
     return redirect()->route('user.dashboard')->with($notification);
   }
 
   public function CodOrder(Request $request)
   {
+
+    $user = User::where('role', 'admin')->get();
 
     if (Session::has('coupon')) {
       $cart_total_amount = Session::get('coupon')['total_amount'];
@@ -187,6 +193,7 @@ class StripeController extends Controller
       'message' => 'Order Place successfully',
       'alert-type' => 'success'
     );
+    Notification::send($user, new OrderComplete($request->name));
     return redirect()->route('user.dashboard')->with($notification);
   }
 }

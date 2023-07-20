@@ -35,6 +35,7 @@ use App\Http\Controllers\Frontend\User\CompareProductController;
 use App\Http\Controllers\Frontend\User\StripeController;
 use App\Http\Controllers\Frontend\User\AllUserController;
 use App\Http\Controllers\Frontend\ReviewController;
+use App\Http\Controllers\Frontend\ShopFilterController;
 use App\Http\Middleware\RedirectIfAuthenticated;
 
 
@@ -477,10 +478,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
         Route::post('/cancel/order/{order_id}', 'cancelOrder')->name('cancel.order');
         Route::post('/return/order/{order_id}', 'returnOrder')->name('return.order');
     });
-    Route::controller(BlogDetailsListController::class)->group(function () {
-        Route::get('/blog/page/show/', 'BlogPageShow')->name('blog.page.show');
-        Route::get('blog/details/{id}/{slug}', 'DetailsBlogPage');
-    });
     Route::controller(ReviewController::class)->group(function () {
         Route::post('/store/product/review/', 'StoreProductReview')->name('store.product.review');
     });
@@ -495,6 +492,16 @@ Route::controller(ProductDetails::class)->group(function () {
     Route::post('/search/product/', 'SearchProduct')->name('search.product');
     Route::get('/show/search/result', 'showResults')->name('show.results');
     Route::post('/search-product', 'SearchProductAjax');
+});
+
+Route::controller(BlogDetailsListController::class)->group(function () {
+    Route::get('/blog/page/show/', 'BlogPageShow')->name('blog.page.show');
+    Route::get('blog/details/{id}/{slug}', 'DetailsBlogPage');
+});
+
+Route::controller(ShopFilterController::class)->group(function () {
+    Route::get('/shop/page/', 'ShopIndex')->name('shop.page');
+    Route::post('/shop/filter/page/', 'ShopFilter')->name('shop.filter');
 });
 
 Route::get('/vendor/details/{id}', [VendorDetailsController::class, 'VendorDetails'])->name('vendorDetailsInfo');

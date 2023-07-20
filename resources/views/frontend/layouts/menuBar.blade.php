@@ -235,8 +235,7 @@
         <div class="header-nav d-none d-lg-flex">
             <div class="main-categori-wrap d-none d-lg-block">
                 <a class="categories-button-active" href="#">
-                    <span class="fi-rs-apps"></span>   All Categories
-                    <i class="fi-rs-angle-down"></i>
+                    <span class="fi-rs-apps"></span>All Categories<i class="fi-rs-angle-down"></i>
                 </a>
                 <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
                     <div class="d-flex categori-dropdown-inner">
@@ -244,18 +243,23 @@
 
                             @php
                             $categories = App\Models\Category\Category::orderBy('category_name','DESC')->where('status','active')->withCount('products')->limit(4)->get();
+                            $cat =  App\Models\Category\Category::orderBy('category_name','DESC')->where('status','active')->get();
                             @endphp
-                            @foreach($categories->slice(0) as $category)
+                            @foreach($cat as $category)
+                            @if ($loop->index <6)
                             <li>
                                 <a href="#"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
                             </li>
+                            @endif
                             @endforeach
                         </ul>
                         <ul class="end">
-                            @foreach($categories->slice(6) as $category)
+                            @foreach($cat as $category)
+                            @if ($loop->index > 5)
                             <li>
                                 <a href="shop-grid-right.html"> <img src="{{asset($category->category_image)}}" alt="" />{{$category->category_name}}</a>
                             </li>
+                            @endif
                             @endforeach
                         </ul>
                     </div>
@@ -303,6 +307,9 @@
                 @endforeach
                         <li>
                             <a href="{{Route('blog.page.show')}}">Blog</a>
+                        </li>
+                        <li>
+                            <a href="{{Route('shop.page')}}">Shop</a>
                         </li>
                         <li>
                             <a href="page-contact.html">Contact</a>
