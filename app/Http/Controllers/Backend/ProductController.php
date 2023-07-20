@@ -132,7 +132,7 @@ class ProductController extends Controller
             'success' => 'Successfully Inactive'
         ]);
     }
-
+    // Inactive to Active
     public function InactiveProduct($id){
         Product::findOrFail($id)->update([
             'status' => 1,

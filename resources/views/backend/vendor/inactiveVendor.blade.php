@@ -1,4 +1,7 @@
 @extends('admin.adminMasterDashboard')
+@section('title')
+Admin | Inctive Vendor
+@endsection
     
     @section('main-content')
 	

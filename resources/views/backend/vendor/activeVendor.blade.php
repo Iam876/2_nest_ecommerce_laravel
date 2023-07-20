@@ -1,4 +1,7 @@
 @extends('admin.adminMasterDashboard')
+@section('title')
+Admin | Active Vendor
+@endsection
     
     @section('main-content')
 	

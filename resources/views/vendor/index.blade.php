@@ -1,4 +1,7 @@
 @extends('vendor.vendorMasterDashboard')
+@section('title')
+    Vendor | Dashboard
+@endsection
 
         @section('main-content')
 			<div class="page-content">

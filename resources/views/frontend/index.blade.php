@@ -1,4 +1,7 @@
 @extends('frontend.frontendMaster')
+@section('title')
+HOME | Nest Ecommerce
+@endsection
     <!--End header-->
     @section('main-section')
     <main class="main">
@@ -15,13 +18,13 @@
         @include('frontend.layouts.featuredProduct')
         <!--End Best Sales-->
         <!-- TV Category -->
-        @include('frontend.layouts.tvCategory')
+        @include('frontend.layouts.First_Category')
         <!--End TV Category -->
         <!-- Tshirt Category -->
-        @include('frontend.layouts.tshirtCategory')
+        @include('frontend.layouts.Second_Category')
         <!--End Tshirt Category -->
         <!-- Computer Category -->
-        @include('frontend.layouts.computerCategory')
+        @include('frontend.layouts.Third_Category')
         <!--End Computer Category -->
         @include('frontend.layouts.recentDealOffer')
 

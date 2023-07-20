@@ -1,4 +1,7 @@
 @extends('admin.adminMasterDashboard')
+@section('title')
+    Admin | All Product
+@endsection
     
     @section('main-content')
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -37,7 +40,7 @@
 									</tr>
 								</thead>
 								<tbody class="tbodyData">
-									<a href=""></a>
+									
 								</tbody>
 								<tfoot>
                                     <tr>

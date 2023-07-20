@@ -17,6 +17,9 @@
 	<script src="{{asset('adminBackend')}}/assets/plugins/sparkline-charts/jquery.sparkline.min.js"></script>
 	<script src="{{asset('adminBackend')}}/assets/plugins/jquery-knob/excanvas.js"></script>
 	<script src="{{asset('adminBackend')}}/assets/plugins/jquery-knob/jquery.knob.js"></script>
+	<script src="{{asset('adminBackend')}}/assets/plugins/input-tags/js/tagsinput.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+	<script src="https://cdn.tiny.cloud/1/4j2n91w9r6y1yn45hy2mqe2lx5ocgo8iwdn6j4efn5h6j6ko/tinymce/5/tinymce.min.js" referrerpolicy="origin">
 	  <script>
 		  $(function() {
 			  $(".knob").knob();

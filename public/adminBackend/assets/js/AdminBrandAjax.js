@@ -58,6 +58,7 @@ $(document).ready(function(){
             }
         });
     }
+    show();
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

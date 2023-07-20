@@ -127,14 +127,6 @@ $(document).ready(function(){
             }
         })
     })
-/*
-edit_category_name
-edit_category_image
-edit_showImageCat
-edit_category_image_logo
-edit_showImageCatLogo
-edit_category_status
-*/
     // Edit Category & Update
     $(document).on("click","#Edit",function(){
         var id = $(this).val();
@@ -145,8 +137,6 @@ edit_category_status
             type:"GET",
             success:function(response){
                 $("#edit_category_name").val(response.success.category_name);
-                // $("#edit_category_image").attr('src','http://127.0.0.1:8000/'+response.success.category_image);
-                // $("#edit_category_image_logo").attr('src','http://127.0.0.1:8000/'+response.success.category_image_logo);
                 $("#edit_showImageCat").attr('src','http://127.0.0.1:8000/'+response.success.category_image);
                 $("#edit_showImageCatLogo").attr('src','http://127.0.0.1:8000/'+response.success.category_image_logo);
                 $("#edit_category_status").val(response.success.status);

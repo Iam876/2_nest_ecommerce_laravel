@@ -54,7 +54,12 @@
 						</div>
 					</li>
 					<li class="nav-item dropdown dropdown-large">
-						<a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="alert-count">7</span>
+						<a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="alert-count">
+							@php
+$ncount = Auth::user()->unreadNotifications()->count()
+@endphp
+{{ $ncount }}
+						</span>
 							<i class='bx bx-bell'></i>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end">
@@ -65,29 +70,62 @@
 								</div>
 							</a>
 							<div class="header-notifications-list">
-								<a class="dropdown-item" href="javascript:;">
-									<div class="d-flex align-items-center">
-										<div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
+								{{--  --}}
+								@php
+								$user = Auth::user();
+								@endphp
+								@foreach($user->notifications as $notification)
+									@php
+										$messageType = $notification->data['message_type'] ?? null;
+									@endphp
+									@if ($messageType == 'new_order')
+									<a class="dropdown-item" href="javascript:;">
+										<div class="d-flex align-items-center">
+											<div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
+											</div>
+											<div class="flex-grow-1">
+												<h6 class="msg-name">New Orders <span class="msg-time float-end">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</span></h6>
+												<p class="msg-info">{{$notification->data['message']}}</p>
+											</div>
 										</div>
-										<div class="flex-grow-1">
-											<h6 class="msg-name">New Customers<span class="msg-time float-end">14 Sec
-													ago</span></h6>
-											<p class="msg-info">5 new user registered</p>
+									</a>
+									@elseif($messageType == 'new_user')
+									<a class="dropdown-item" href="javascript:;">
+										<div class="d-flex align-items-center">
+											<div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
+											</div>
+											<div class="flex-grow-1">
+												<h6 class="msg-name">New Customers<span class="msg-time float-end">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</span></h6>
+												<p class="msg-info">{{$notification->data['message']}}</p>
+											</div>
 										</div>
-									</div>
-								</a>
-								<a class="dropdown-item" href="javascript:;">
-									<div class="d-flex align-items-center">
-										<div class="notify bg-light-danger text-danger"><i class="bx bx-cart-alt"></i>
+									</a>
+									@elseif($messageType == 'new_vendor')
+									<a class="dropdown-item" href="javascript:;">
+										<div class="d-flex align-items-center">
+											<div class="notify bg-light-primary text-primary"><i class="bx bx-group"></i>
+											</div>
+											<div class="flex-grow-1">
+												<h6 class="msg-name">New Vendor<span class="msg-time float-end">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</span></h6>
+												<p class="msg-info">{{$notification->data['message']}}</p>
+											</div>
 										</div>
-										<div class="flex-grow-1">
-											<h6 class="msg-name">New Orders <span class="msg-time float-end">2 min
-													ago</span></h6>
-											<p class="msg-info">You have recived new orders</p>
+									</a>
+									@elseif($messageType == 'vendor_active')
+									<a class="dropdown-item" href="javascript:;">
+										<div class="d-flex align-items-center">
+											<div class="notify bg-light-info text-info"><i class="bx bx-home-circle"></i>
+											</div>
+											<div class="flex-grow-1">
+												<h6 class="msg-name">New Vendor Approved <span class="msg-time float-end">{{Carbon\Carbon::parse($notification->created_at)->diffForHumans()}}</span></h6>
+												<p class="msg-info">{{$notification->data['message']}}</p>
+											</div>
 										</div>
-									</div>
-								</a>
-								<a class="dropdown-item" href="javascript:;">
+									</a>
+									@endif
+									{{-- @empty --}}
+								@endforeach
+								{{-- <a class="dropdown-item" href="javascript:;">
 									<div class="d-flex align-items-center">
 										<div class="notify bg-light-success text-success"><i class="bx bx-file"></i>
 										</div>
@@ -162,7 +200,7 @@
 											<p class="msg-info">45% less alerts last 4 weeks</p>
 										</div>
 									</div>
-								</a>
+								</a> --}}
 							</div>
 							<a href="javascript:;">
 								<div class="text-center msg-footer">View All Notifications</div>
